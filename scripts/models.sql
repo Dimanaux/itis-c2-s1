@@ -1,9 +1,10 @@
 CREATE TABLE "user" (
-      id       SERIAL             NOT NULL,
-      username VARCHAR(16) UNIQUE NOT NULL,
-      password VARCHAR(64)        NOT NULL,
+      id       SERIAL      NOT NULL,
+      username VARCHAR(16) NOT NULL,
+      password VARCHAR(64) NOT NULL,
       name     VARCHAR(20),
-      CONSTRAINT pk_user PRIMARY KEY (id)
+      CONSTRAINT pk_user PRIMARY KEY (id),
+      CONSTRAINT unique_username UNIQUE (username)
 );
 
 CREATE TABLE post (
@@ -14,7 +15,6 @@ CREATE TABLE post (
       CONSTRAINT pk_post PRIMARY KEY (id),
       FOREIGN KEY (author_id) REFERENCES "user" (id)
 );
-
 
 CREATE TABLE post_comment (
       id        SERIAL    NOT NULL,
@@ -71,5 +71,3 @@ CREATE TABLE ingredient_recipe_relation (
       CONSTRAINT ingredient_fk FOREIGN KEY (ingredient_id) REFERENCES ingredient (id),
       CONSTRAINT recipe_fk FOREIGN KEY (recipe_id) REFERENCES recipe (id)
 );
-
-
