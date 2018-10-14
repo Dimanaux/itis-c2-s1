@@ -8,20 +8,20 @@ CREATE TABLE "user" (
 );
 
 CREATE TABLE post (
-      id        SERIAL    NOT NULL,
-      author_id INTEGER   NOT NULL,
-      text      TEXT      NOT NULL,
-      datetime  TIMESTAMP NOT NULL,
+      id           SERIAL    NOT NULL,
+      author_id    INTEGER   NOT NULL,
+      text         TEXT      NOT NULL,
+      publish_date TIMESTAMP NOT NULL,
       CONSTRAINT pk_post PRIMARY KEY (id),
       FOREIGN KEY (author_id) REFERENCES "user" (id)
 );
 
 CREATE TABLE post_comment (
-      id        SERIAL    NOT NULL,
-      author_id INTEGER   NOT NULL,
-      post_id   INTEGER   NOT NULL,
-      text      TEXT      NOT NULL,
-      datetime  TIMESTAMP NOT NULL,
+      id            SERIAL    NOT NULL,
+      author_id     INTEGER   NOT NULL,
+      post_id       INTEGER   NOT NULL,
+      text          TEXT      NOT NULL,
+      publish_date  TIMESTAMP NOT NULL,
       CONSTRAINT pk_post_comment PRIMARY KEY (id),
       CONSTRAINT comment_author_fk FOREIGN KEY (author_id) REFERENCES "user" (id),
       CONSTRAINT comment_post_fk FOREIGN KEY (post_id) REFERENCES post (id)
@@ -54,11 +54,11 @@ CREATE TABLE recipe (
 );
 
 CREATE TABLE recipe_comment (
-      id        SERIAL    NOT NULL,
-      author_id INTEGER   NOT NULL,
-      recipe_id INTEGER   NOT NULL,
-      text      TEXT      NOT NULL,
-      datetime  TIMESTAMP NOT NULL,
+      id           SERIAL    NOT NULL,
+      author_id    INTEGER   NOT NULL,
+      recipe_id    INTEGER   NOT NULL,
+      text         TEXT      NOT NULL,
+      publish_date TIMESTAMP NOT NULL,
       CONSTRAINT pk_recipe_comment PRIMARY KEY (id),
       CONSTRAINT comment_author_fk FOREIGN KEY (author_id) REFERENCES "user" (id),
       CONSTRAINT comment_recipe_fk FOREIGN KEY (recipe_id) REFERENCES recipe (id)
