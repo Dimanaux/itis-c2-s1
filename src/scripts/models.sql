@@ -8,23 +8,23 @@ CREATE TABLE "user" (
 
 CREATE TABLE post (
       id        SERIAL    NOT NULL,
-      author_id INTEGER   NOT NULL,
+      authorId INTEGER   NOT NULL,
       text      TEXT      NOT NULL,
       datetime  TIMESTAMP NOT NULL,
       CONSTRAINT pk_post PRIMARY KEY (id),
-      FOREIGN KEY (author_id) REFERENCES "user" (id)
+      FOREIGN KEY (authorId) REFERENCES "user" (id)
 );
 
 
 CREATE TABLE post_comment (
       id        SERIAL    NOT NULL,
-      author_id INTEGER   NOT NULL,
-      post_id   INTEGER   NOT NULL,
+      authorId INTEGER   NOT NULL,
+      postId   INTEGER   NOT NULL,
       text      TEXT      NOT NULL,
       datetime  TIMESTAMP NOT NULL,
       CONSTRAINT pk_post_comment PRIMARY KEY (id),
-      CONSTRAINT comment_author_fk FOREIGN KEY (author_id) REFERENCES "user" (id),
-      CONSTRAINT comment_post_fk FOREIGN KEY (post_id) REFERENCES post (id)
+      CONSTRAINT comment_author_fk FOREIGN KEY (authorId) REFERENCES "user" (id),
+      CONSTRAINT comment_post_fk FOREIGN KEY (postId) REFERENCES post (id)
 );
 
 CREATE TABLE ingredient (
@@ -44,32 +44,32 @@ CREATE TABLE dish (
 
 CREATE TABLE recipe (
       id           SERIAL    NOT NULL,
-      dish_id      INTEGER   NOT NULL,
-      author_id    INTEGER   NOT NULL,
+      dishId      INTEGER   NOT NULL,
+      authorId    INTEGER   NOT NULL,
       text         TEXT      NOT NULL,
       publish_date TIMESTAMP NOT NULL,
       CONSTRAINT pk_recipe PRIMARY KEY (id),
-      CONSTRAINT recipe_dish_fk FOREIGN KEY (dish_id) REFERENCES dish (id),
-      CONSTRAINT recipe_author_fk FOREIGN KEY (author_id) REFERENCES "user" (id)
+      CONSTRAINT recipe_dish_fk FOREIGN KEY (dishId) REFERENCES dish (id),
+      CONSTRAINT recipe_author_fk FOREIGN KEY (authorId) REFERENCES "user" (id)
 );
 
 CREATE TABLE recipe_comment (
       id        SERIAL    NOT NULL,
-      author_id INTEGER   NOT NULL,
-      recipe_id INTEGER   NOT NULL,
+      authorId INTEGER   NOT NULL,
+      recipeId INTEGER   NOT NULL,
       text      TEXT      NOT NULL,
       datetime  TIMESTAMP NOT NULL,
       CONSTRAINT pk_recipe_comment PRIMARY KEY (id),
-      CONSTRAINT comment_author_fk FOREIGN KEY (author_id) REFERENCES "user" (id),
-      CONSTRAINT comment_recipe_fk FOREIGN KEY (recipe_id) REFERENCES recipe (id)
+      CONSTRAINT comment_author_fk FOREIGN KEY (authorId) REFERENCES "user" (id),
+      CONSTRAINT comment_recipe_fk FOREIGN KEY (recipeId) REFERENCES recipe (id)
 );
 
 CREATE TABLE ingredient_recipe_relation (
       ingredient_id INTEGER NOT NULL,
-      recipe_id     INTEGER NOT NULL,
-      CONSTRAINT unique_pair_ingredient_recipe UNIQUE (ingredient_id, recipe_id),
+      recipeId     INTEGER NOT NULL,
+      CONSTRAINT unique_pair_ingredient_recipe UNIQUE (ingredient_id, recipeId),
       CONSTRAINT ingredient_fk FOREIGN KEY (ingredient_id) REFERENCES ingredient (id),
-      CONSTRAINT recipe_fk FOREIGN KEY (recipe_id) REFERENCES recipe (id)
+      CONSTRAINT recipe_fk FOREIGN KEY (recipeId) REFERENCES recipe (id)
 );
 
 
