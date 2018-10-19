@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Recipe</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link href="css/recipe.css" rel="stylesheet">
+</head>
+<body>
+	<header>
+		<div class="brand">BR4ND</div>
+		<div class="search">
+			<span class="search-border">
+				<input type="search" id="search-input" placeholder="Search">
+				<button type="submit" id="search-button">&#128269;</button>
+			</span>
+		</div>
+		<div class="bar__right">
+			<a href="login.html" class="topnav-button">Log In</a>
+			<a href="register.html" class="topnav-button">Sign Up</a>
+		</div>
+	</header>
+	<main>
+		<div class="wrapper" style="background-image: url(res/food.jpg);">
+			<div class="logo">
+			</div>
+			<div class="container-wrapper">
+				<div class="sidemenu">
+					<ul id="sidemenu">
+						<li class="current"><a href="recipes.html">Main</a></li>
+						<li><a href="ingredients.html">Ingredients</a></li>
+						<li><a href="profile.html">My Profile</a></li>
+						<li><a href="order.html">Order Food</a></li>				
+						<li><a href="help.html">Help</a></li>
+						<li><a href="about.html">About</a></li>
+					</ul>
+				</div>
+				<div class="container">
+					<a class="edit" href="create_recipe.html">&#9998;</a>
+					<div class="recipe">
+						<div class="recipe-top">
+							<img src="res/item1.jpg"/>
+							<div class="recipe-text-top">
+								<h2>Classic Russian Borsch</h2>
+								<div class="recipe-ingredients">
+									Ingredients:
+									<ul>
+										<li>ingr1 - 100gr</li>
+										<li>ingr2 - 200gr</li>
+										<li>ingr3 - 300gr</li>
+										<li>ingr4 - 400gr</li>
+										<li>ingr5 - 500gr</li>
+										<li>ingr6 - 600gr</li>
+										<li>ingr7 - 700gr</li>
+										<li>ingr8 - 800gr</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="recipe-bot">
+							<h3>by <a href="profile.html">Viktor Barinov</a></h3>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<script type="text/javascript" src="js/goto.js"></script>
+</body>
+</html>

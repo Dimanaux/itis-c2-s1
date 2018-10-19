@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Profile</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link href="css/profile.css" rel="stylesheet">
+</head>
+<body>
+	<header>
+		<div class="brand">BR4ND</div>
+		<div class="search">
+			<span class="search-border">
+				<input type="search" id="search-input" placeholder="Search">
+				<button type="submit" id="search-button">&#128269;</button>
+			</span>
+		</div>
+		<div class="bar__right">
+			<a href="login.html" class="topnav-button">Log In</a>
+			<a href="register.html" class="topnav-button">Sign Up</a>
+		</div>
+	</header>
+	<main>
+		<div class="wrapper" style="background-image: url(res/food.jpg);">
+			<div class="logo">
+			</div>
+			<div class="container-wrapper">
+				<div class="sidemenu">
+					<ul id="sidemenu">
+						<li><a href="recipes.html">Main</a></li>
+						<li><a href="ingredients.html">Ingredients</a></li>
+						<li class="current"><a href="profile.html">My Profile</a></li>
+						<li><a href="order.html">Order Food</a></li>				
+						<li><a href="help.html">Help</a></li>
+						<li><a href="about.html">About</a></li>
+					</ul>
+				</div>
+				<div class="container">
+					<a href="edit_profile.html" class="edit">&#9998;</a>
+					<div class="user-profile">
+						<img src="res/profile.jpg"/>
+						<div class="user-profile-text">
+							<h2>Viktor Barinov</h2>
+							<p>e-mail@mail.com</p>
+						</div>
+					</div>
+					<div class="recipes-bar__top">
+						<div class="label">User recipes:</div>
+						<a href="create_recipe.html" class="add-recipe"><span class="plus">+</span> Add recipe</a>
+					</div>
+					<div class="list">
+						<a href="recipe.html">
+							<span class="item">
+								<img src="res/item1.jpg" alt="item1">
+								<span class="item-text">
+									<h3 class="heading">Classic Russian Borsch</h3>
+									<p>Ingredients:</p>
+									<ul class="ingredients">
+										<li>meat</li>
+										<li>potato</li>
+										<li>cabbage</li>
+										<li>carrot</li>
+										<li>onion</li>
+										<li>parsley</li>
+									</ul>
+								</span>
+							</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<script type="text/javascript" src="js/goto.js"></script>
+</body>
+</html>

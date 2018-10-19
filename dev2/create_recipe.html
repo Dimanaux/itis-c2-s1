@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Create Recipe</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link href="css/create_recipe.css" rel="stylesheet">
+</head>
+<body>
+	<header>
+		<div class="brand">BR4ND</div>
+		<div class="search">
+			<span class="search-border">
+				<input type="search" id="search-input" placeholder="Search">
+				<button type="submit" id="search-button">&#128269;</button>
+			</span>
+		</div>
+		<div class="bar__right">
+			<a href="login.html" class="topnav-button">Log In</a>
+			<a href="register.html" class="topnav-button">Sign Up</a>
+		</div>
+	</header>
+	<main>
+		<div class="wrapper" style="background-image: url(res/food.jpg);">
+			<div class="logo">
+			</div>
+			<div class="container-wrapper">
+				<div class="sidemenu">
+					<ul id="sidemenu">
+						<li><a href="recipes.html">Main</a></li>
+						<li><a href="ingredients.html">Ingredients</a></li>
+						<li class="current"><a href="profile.html">My Profile</a></li>
+						<li><a href="order.html">Order Food</a></li>				
+						<li><a href="help.html">Help</a></li>
+						<li><a href="about.html">About</a></li>
+					</ul>
+				</div>
+				<div class="container">
+					<div class="label">Create recipe: </div>
+					<div class="recipe">
+						<form class="form" method="post">
+							<input type="text" name="name" id="name" placeholder="Recipe name">
+							<textarea name="description" id="description" placeholder="Description"></textarea>
+							<h3 class="avatar-label">Photo: </h3>
+							<input type="file" name="photo" id="photo" accept=".jpg, .jpeg, .png">
+							<label id="photo-label" for="photo"><span class="upload-icon">&#10531;</span> Choose an image</label>
+							<h3 class="avatar-label">Ingredients:</h2>
+							<div id="form">
+								<div class="ingredient">
+									<div class="ingredient-selection">
+										<select id="ingredient-select 1" name="ingredient-select 1">
+										  <option value="ingr1">ingr1</option>
+										  <option value="ingr2">ingr2</option>
+										  <option value="ingr3">ingr3</option>
+										  <option value="ingr4">ingr4</option>
+										</select>
+									</div>
+									<input type="text" class="amount" name="ingredient-amount 1" id="ingredient-amount 1" placeholder="Amount">
+								</div>
+								<p><button type="button" id="add__button">+</button></p>
+							</div>
+							<button type="submit" id="button-submit">Create</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<script type="text/javascript" src="js/file_input.js"></script>
+	<script type="text/javascript" src="js/ingredients_create_old.js"></script>
+	<script type="text/javascript" src="js/goto.js"></script>
+</body>
+</html>
