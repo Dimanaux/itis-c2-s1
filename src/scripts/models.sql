@@ -1,27 +1,28 @@
 CREATE TABLE "user" (
-      id       SERIAL             NOT NULL,
-      username VARCHAR(16) UNIQUE NOT NULL,
-      password VARCHAR(64)        NOT NULL,
+      id       SERIAL      NOT NULL,
+      username VARCHAR(16) NOT NULL,
+      password VARCHAR(64) NOT NULL,
       name     VARCHAR(20),
-      CONSTRAINT pk_user PRIMARY KEY (id)
+      CONSTRAINT pk_user PRIMARY KEY (id),
+      CONSTRAINT unique_username UNIQUE (username)
 );
 
 CREATE TABLE post (
-      id        SERIAL    NOT NULL,
-      authorId INTEGER   NOT NULL,
-      text      TEXT      NOT NULL,
-      datetime  TIMESTAMP NOT NULL,
+      id           SERIAL      NOT NULL,
+      title        VARCHAR(40) NOT NULL,
+      author_id    INTEGER     NOT NULL,
+      text         TEXT        NOT NULL,
+      publish_date TIMESTAMP   NOT NULL,
       CONSTRAINT pk_post PRIMARY KEY (id),
-      FOREIGN KEY (authorId) REFERENCES "user" (id)
+      FOREIGN KEY (authorId) REFERENCES "user" (id),
 );
 
-
 CREATE TABLE post_comment (
-      id        SERIAL    NOT NULL,
-      authorId INTEGER   NOT NULL,
-      postId   INTEGER   NOT NULL,
-      text      TEXT      NOT NULL,
-      datetime  TIMESTAMP NOT NULL,
+      id            SERIAL    NOT NULL,
+      author_id     INTEGER   NOT NULL,
+      post_id       INTEGER   NOT NULL,
+      text          TEXT      NOT NULL,
+      publish_date  TIMESTAMP NOT NULL,
       CONSTRAINT pk_post_comment PRIMARY KEY (id),
       CONSTRAINT comment_author_fk FOREIGN KEY (authorId) REFERENCES "user" (id),
       CONSTRAINT comment_post_fk FOREIGN KEY (postId) REFERENCES post (id)
@@ -43,22 +44,23 @@ CREATE TABLE dish (
 );
 
 CREATE TABLE recipe (
-      id           SERIAL    NOT NULL,
-      dishId      INTEGER   NOT NULL,
-      authorId    INTEGER   NOT NULL,
-      text         TEXT      NOT NULL,
-      publish_date TIMESTAMP NOT NULL,
+      id           SERIAL      NOT NULL,
+      title        VARCHAR(40) NOT NULL,
+      dishId       INTEGER     NOT NULL,
+      authorId     INTEGER     NOT NULL,
+      text         TEXT        NOT NULL,
+      publish_date TIMESTAMP   NOT NULL,
       CONSTRAINT pk_recipe PRIMARY KEY (id),
       CONSTRAINT recipe_dish_fk FOREIGN KEY (dishId) REFERENCES dish (id),
       CONSTRAINT recipe_author_fk FOREIGN KEY (authorId) REFERENCES "user" (id)
 );
 
 CREATE TABLE recipe_comment (
-      id        SERIAL    NOT NULL,
-      authorId INTEGER   NOT NULL,
-      recipeId INTEGER   NOT NULL,
-      text      TEXT      NOT NULL,
-      datetime  TIMESTAMP NOT NULL,
+      id           SERIAL    NOT NULL,
+      author_id    INTEGER   NOT NULL,
+      recipe_id    INTEGER   NOT NULL,
+      text         TEXT      NOT NULL,
+      publish_date TIMESTAMP NOT NULL,
       CONSTRAINT pk_recipe_comment PRIMARY KEY (id),
       CONSTRAINT comment_author_fk FOREIGN KEY (authorId) REFERENCES "user" (id),
       CONSTRAINT comment_recipe_fk FOREIGN KEY (recipeId) REFERENCES recipe (id)
@@ -71,5 +73,3 @@ CREATE TABLE ingredient_recipe_relation (
       CONSTRAINT ingredient_fk FOREIGN KEY (ingredient_id) REFERENCES ingredient (id),
       CONSTRAINT recipe_fk FOREIGN KEY (recipeId) REFERENCES recipe (id)
 );
-
-
