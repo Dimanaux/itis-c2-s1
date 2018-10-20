@@ -1,6 +1,8 @@
 package app.servlets.posts;
 
-import javax.servlet.ServletException;
+import app.db.models.Post;
+import app.db.models.User;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +14,7 @@ import java.util.regex.Pattern;
 @WebServlet(name = "PostsIdEditServlets")
 public class PostsIdEditServlets extends AbstractPostServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         User user = getUserService().authenticate(req);
         int id = getId(req.getRequestURI());
         Post post = getPostService().getPostById(id);

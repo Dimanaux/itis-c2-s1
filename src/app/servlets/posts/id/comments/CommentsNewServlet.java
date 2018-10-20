@@ -1,5 +1,8 @@
 package app.servlets.posts.id.comments;
 
+import app.db.models.Post;
+import app.db.models.User;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

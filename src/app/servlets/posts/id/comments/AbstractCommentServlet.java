@@ -18,10 +18,9 @@ public abstract class AbstractCommentServlet extends AbstractServlet {
     @Override
     public void init() {
         helper = new Helper(getServletContext());
-        // TODO: 18/10/20 initialize services
-        userService = null;
-        postService = null;
-        commentService = null;
+        userService = new UserService();
+        postService = new PostService();
+        commentService = new PostCommentService();
     }
 
     Helper getHelper() {
@@ -36,7 +35,7 @@ public abstract class AbstractCommentServlet extends AbstractServlet {
         return postService;
     }
 
-    public PostCommentService getCommentService() {
+    PostCommentService getCommentService() {
         return commentService;
     }
 

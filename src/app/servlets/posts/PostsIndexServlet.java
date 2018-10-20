@@ -1,10 +1,14 @@
 package app.servlets.posts;
 
+import app.db.models.Post;
+import app.db.models.User;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 @WebServlet(name = "PostsIndexServlet")
 public class PostsIndexServlet extends AbstractPostServlet {

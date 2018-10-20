@@ -1,5 +1,7 @@
 package app.services;
 
+import app.db.models.User;
+
 import javax.servlet.http.HttpServletRequest;
 
 public class UserService {
@@ -9,7 +11,7 @@ public class UserService {
         this.securityService = new SecurityService();
     }
 
-    User authenticate(HttpServletRequest request) {
+    public User authenticate(HttpServletRequest request) {
         // TODO: 18/10/20 implement
         return null;
     }

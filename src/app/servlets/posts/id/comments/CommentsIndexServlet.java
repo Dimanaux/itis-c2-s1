@@ -1,5 +1,9 @@
 package app.servlets.posts.id.comments;
 
+import app.db.models.Post;
+import app.db.models.PostComment;
+import app.db.models.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +25,7 @@ public class CommentsIndexServlet extends AbstractCommentServlet {
         }
         String text = req.getParameter("text");
 
-        Comment comment = getCommentService().createComment(post, user, text);
+        PostComment comment = getCommentService().createComment(post, user, text);
         if (comment == null) {
             resp.sendError(500);
         } else {

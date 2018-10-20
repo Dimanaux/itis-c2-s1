@@ -1,5 +1,7 @@
 package app.servlets.posts;
 
+import app.db.models.User;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

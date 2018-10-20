@@ -13,9 +13,8 @@ public abstract class AbstractPostServlet extends AbstractServlet {
     @Override
     public void init() {
         helper = new Helper(getServletContext());
-        // TODO: 18/10/20 initialize services
-        userService = null;
-        postService = null;
+        userService = new UserService();
+        postService = new PostService();
     }
 
     Helper getHelper() {

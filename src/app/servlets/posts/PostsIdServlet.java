@@ -1,12 +1,10 @@
 package app.servlets.posts;
 
-import app.services.PostService;
-import app.services.UserService;
-import app.util.Helper;
+import app.db.models.Post;
+import app.db.models.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,9 +21,9 @@ public class PostsIdServlet extends AbstractPostServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = getId(request.getRequestURI());
+        int id = getId(req.getRequestURI());
         Post post = getPostService().getPostById(id);
-        User user = getUserService().authenticate(request);
+        User user = getUserService().authenticate(req);
 
         if (post.getAuthor().equals(user)) {
             getPostService().delete(post);
