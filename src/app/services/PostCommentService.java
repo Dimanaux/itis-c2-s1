@@ -5,7 +5,7 @@ import app.db.models.PostComment;
 import app.db.models.User;
 
 public class PostCommentService {
-    public PostComment createComment(Post post, User user, String text) {
+    public PostComment create(Post post, User user, String text) {
         // TODO: 18/10/20 implement
         return null;
     }

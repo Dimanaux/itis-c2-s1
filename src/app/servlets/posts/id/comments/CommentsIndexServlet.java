@@ -25,7 +25,7 @@ public class CommentsIndexServlet extends AbstractCommentsServlet {
         }
         String text = req.getParameter("text");
 
-        PostComment comment = getCommentService().createComment(post, user, text);
+        PostComment comment = getCommentService().create(post, user, text);
         if (comment == null) {
             resp.sendError(500);
         } else {
