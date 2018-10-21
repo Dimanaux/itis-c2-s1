@@ -20,7 +20,7 @@ public class PostsIdEditServlets extends AbstractPostsServlet {
         Post post = getPostService().getPostById(id);
 
         if (!post.getAuthor().equals(user)) {
-            resp.sendRedirect("/posts");
+            resp.sendError(403);
             return;
         }
 
