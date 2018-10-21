@@ -9,7 +9,7 @@ import app.util.Helper;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class AbstractCommentServlet extends AbstractServlet {
+public abstract class AbstractCommentsServlet extends AbstractServlet {
     private Helper helper;
     private UserService userService;
     private PostService postService;

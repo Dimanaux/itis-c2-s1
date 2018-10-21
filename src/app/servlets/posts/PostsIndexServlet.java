@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-@WebServlet(name = "PostsIndexServlet")
-public class PostsIndexServlet extends AbstractPostServlet {
+@WebServlet(name = "PostsIndexServlet", urlPatterns = {"/posts"})
+public class PostsIndexServlet extends AbstractPostsServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         User user = getUserService().authenticate(req);
@@ -22,7 +22,7 @@ public class PostsIndexServlet extends AbstractPostServlet {
         String title = req.getParameter("title");
         String text = req.getParameter("text");
 
-        Post post = getPostService().createPost(title, user, text);
+        Post post = getPostService().create(title, user, text);
         if (post == null) {
             resp.sendError(500);
         } else {

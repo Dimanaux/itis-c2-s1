@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 
-@WebServlet(name = "CommentsIndexServlet")
-public class CommentsIndexServlet extends AbstractCommentServlet {
+@WebServlet(urlPatterns = {"/posts/:id/comments"})
+public class CommentsIndexServlet extends AbstractCommentsServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = getUserService().authenticate(req);

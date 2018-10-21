@@ -3,7 +3,6 @@ package app.servlets.posts;
 import app.db.models.Post;
 import app.db.models.User;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,15 +11,15 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@WebServlet(name = "PostsIdServlet")
-public class PostsIdServlet extends AbstractPostServlet {
+@WebServlet(name = "PostsIdServlet", urlPatterns = {"/posts/:id"})
+public class PostsIdServlet extends AbstractPostsServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         // TODO: 18/10/20 Maybe POST? or PUT/PATCH to edit post
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int id = getId(req.getRequestURI());
         Post post = getPostService().getPostById(id);
         User user = getUserService().authenticate(req);

@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 
-@WebServlet(name = "CommentsNewServlet")
-public class CommentsNewServlet extends AbstractCommentServlet {
+@WebServlet(urlPatterns = {"/posts/:id/comments/new"})
+public class CommentsNewServlet extends AbstractCommentsServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         User user = getUserService().authenticate(req);

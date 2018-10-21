@@ -5,7 +5,7 @@ import app.services.UserService;
 import app.servlets.AbstractServlet;
 import app.util.Helper;
 
-public abstract class AbstractPostServlet extends AbstractServlet {
+public abstract class AbstractPostsServlet extends AbstractServlet {
     private Helper helper;
     private UserService userService;
     private PostService postService;

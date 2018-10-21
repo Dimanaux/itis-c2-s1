@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@WebServlet(name = "PostsIdEditServlets")
-public class PostsIdEditServlets extends AbstractPostServlet {
+@WebServlet(name = "PostsIdEditServlet", urlPatterns = {"/posts/:id/edit"})
+public class PostsIdEditServlets extends AbstractPostsServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         User user = getUserService().authenticate(req);

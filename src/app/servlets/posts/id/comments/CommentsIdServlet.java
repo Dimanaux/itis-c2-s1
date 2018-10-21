@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "CommentsIdServlet")
-public class CommentsIdServlet extends AbstractCommentServlet {
+@WebServlet(urlPatterns = {"/posts/:id/comments/:id"})
+public class CommentsIdServlet extends AbstractCommentsServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         // TODO: 18/10/20

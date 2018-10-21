@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 
-@WebServlet(name = "PostsNewServlet")
-public class PostsNewServlet extends AbstractPostServlet {
+@WebServlet(name = "PostsNewServlet", urlPatterns = {"/posts/new"})
+public class PostsNewServlet extends AbstractPostsServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         User user = getUserService().authenticate(req);
