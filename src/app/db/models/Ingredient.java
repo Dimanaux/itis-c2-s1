@@ -2,13 +2,13 @@ package app.db.models;
 
 import app.db.annotations.*;
 
-@Table(tableName = "ingredient")
-public class Ingredient implements Model {
+@Table(table = "ingredients")
+public class Ingredient extends Model {
     @Id
-    @Column(columnName = "id")
+    @Column(name = "id")
     private Integer id;
 
-    @Column(columnName = "name")
+    @Column(name = "name")
     private String name;
 
 

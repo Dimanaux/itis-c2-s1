@@ -4,24 +4,24 @@ import app.db.annotations.*;
 
 import java.util.Date;
 
-@Table(tableName = "recipe_comment")
-public class RecipeComment implements Model {
+@Table(table = "recipe_comment")
+public class RecipeComment extends Model {
     @Id
-    @Column(columnName = "id")
+    @Column(name = "id")
     private Integer id;
 
-    @Column(columnName = "authorId")
+    @Column(name = "authorId")
     private Integer authorId;
     private User author;
 
-    @Column(columnName = "recipeId")
+    @Column(name = "recipeId")
     private Integer recipeId;
     private Recipe recipe;
 
-    @Column(columnName = "text")
+    @Column(name = "text")
     private String text;
 
-    @Column(columnName = "publish_date")
+    @Column(name = "publish_date")
     private Date date;
 
     @Override
@@ -48,6 +48,7 @@ public class RecipeComment implements Model {
 
     public void setAuthor(User author) {
         this.author = author;
+        this.authorId = author.getId();
     }
 
     public Integer getRecipeId() {
@@ -64,6 +65,7 @@ public class RecipeComment implements Model {
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
+        setRecipeId(recipe.getId());
     }
 
     public String getText() {

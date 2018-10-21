@@ -4,24 +4,24 @@ import app.db.annotations.*;
 
 import java.util.Date;
 
-@Table(tableName = "post_comment")
-public class PostComment implements Model {
+@Table(table = "post_comment")
+public class PostComment extends Model {
     @Id
-    @Column(columnName = "id")
+    @Column(name = "id")
     private Integer id;
 
-    @Column(columnName = "authorId")
+    @Column(name = "authorId")
     private Integer authorId;
     private User author;
 
-    @Column(columnName = "postId")
+    @Column(name = "postId")
     private Integer postId;
     private Post post;
 
-    @Column(columnName = "text")
+    @Column(name = "text")
     private String text;
 
-    @Column(columnName = "publish_date")
+    @Column(name = "publish_date")
     private Date date;
 
 
@@ -47,6 +47,7 @@ public class PostComment implements Model {
 
     public void setAuthor(User author) {
         this.author = author;
+        this.authorId = author.getId();
     }
 
     public Integer getPostId() {
@@ -63,6 +64,7 @@ public class PostComment implements Model {
 
     public void setPost(Post post) {
         this.post = post;
+        this.postId = post.getId();
     }
 
     public String getText() {

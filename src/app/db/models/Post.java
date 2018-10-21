@@ -4,20 +4,23 @@ import app.db.annotations.*;
 
 import java.util.Date;
 
-@Table(tableName = "post")
-public class Post implements Model {
+@Table(table = "post")
+public class Post extends Model {
     @Id
-    @Column(columnName = "id")
+    @Column(name = "id")
     private Integer id;
 
-    @Column(columnName = "authorId")
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "authorId")
     private Integer authorId;
     private User author;
 
-    @Column(columnName = "text")
+    @Column(name = "text")
     private String text;
 
-    @Column(columnName = "publish_date")
+    @Column(name = "publish_date")
     private Date date;
 
 
@@ -29,12 +32,21 @@ public class Post implements Model {
         this.id = id;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public User getAuthor() {
         return author;
     }
 
     public void setAuthor(User author) {
         this.author = author;
+        this.authorId = author.getId();
     }
 
     public Integer getAuthorId() {

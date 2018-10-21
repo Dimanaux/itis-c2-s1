@@ -2,19 +2,19 @@ package app.db.models;
 
 import app.db.annotations.*;
 
-@Table(tableName = "\"user\"")
-public class User implements Model {
+@Table(table = "\"user\"")
+public class User extends Model {
     @Id
-    @Column(columnName = "id")
+    @Column(name = "id")
     private Integer id;
     
-    @Column(columnName = "username")
+    @Column(name = "username")
     private String username;
     
-    @Column(columnName = "password")
+    @Column(name = "password")
     private String password;
     
-    @Column(columnName = "name")
+    @Column(name = "name")
     private String name;
 
 

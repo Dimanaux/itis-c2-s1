@@ -2,19 +2,19 @@ package app.db.models;
 
 import app.db.annotations.*;
 
-@Table(tableName = "dish")
-public class Dish implements Model {
+@Table(table = "dish")
+public class Dish extends Model {
     @Id
-    @Column(columnName = "id")
+    @Column(name = "id")
     private Integer id;
 
-    @Column(columnName = "name")
+    @Column(name = "name")
     private String name;
 
-    @Column(columnName = "description")
+    @Column(name = "description")
     private String description;
 
-    @Column(columnName = "is_vegan")
+    @Column(name = "is_vegan")
     private Boolean isVegan;
 
 
