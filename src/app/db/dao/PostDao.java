@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PostDao extends Dao<Post> {
     List<Post> getByAuthor(User author);
+    List<Post> getByAuthorId(int id);
 }

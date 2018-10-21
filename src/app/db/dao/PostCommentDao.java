@@ -1,7 +1,11 @@
 package app.db.dao;
 
+import app.db.models.Post;
 import app.db.models.PostComment;
 
+import java.util.List;
+
 public interface PostCommentDao extends Dao<PostComment> {
-    // TODO: 18/10/18
+    List<PostComment> getByPost(Post post);
+    List<PostComment> getByPostId(int id);
 }
