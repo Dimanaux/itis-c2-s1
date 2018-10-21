@@ -5,7 +5,7 @@ import app.db.models.Ingredient;
 import java.sql.ResultSet;
 
 public class IngredientDao extends AbstractDao<Ingredient> implements app.db.dao.IngredientDao {
-    IngredientDao() {
+    public IngredientDao() {
         super(ConnectionSingleton.getInstance());
     }
 
