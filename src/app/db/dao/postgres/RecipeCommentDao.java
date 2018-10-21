@@ -1,14 +1,24 @@
 package app.db.dao.postgres;
 
+import app.db.models.Recipe;
 import app.db.models.RecipeComment;
+import app.db.models.User;
 
-import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class RecipeCommentDao extends AbstractDao<RecipeComment> implements app.db.dao.RecipeCommentDao {
-    RecipeCommentDao(Connection connection) {
-        super(connection);
+    private final RecipeDao recipeDao;
+    private final UserDao userDao;
+
+    public RecipeCommentDao() {
+        super(ConnectionSingleton.getInstance());
+        this.userDao = new app.db.dao.postgres.UserDao();
+        this.recipeDao = new app.db.dao.postgres.RecipeDao();
+
     }
 
     @Override
@@ -17,17 +27,44 @@ public class RecipeCommentDao extends AbstractDao<RecipeComment> implements app.
     }
 
     @Override
-    protected RecipeComment instance(ResultSet rs) throws SQLException {
-        if (rs.next()) {
-            RecipeComment recipeComment = new RecipeComment();
-            recipeComment.setId(rs.getInt("id"));
-            recipeComment.setAuthorId(rs.getInt("author_id"));
-            recipeComment.setRecipeId(rs.getInt("recipe_id"));
-            recipeComment.setDate(rs.getDate("publish_date"));
-            recipeComment.setText(rs.getBlob("text").toString());
-            return recipeComment;
-        } else {
-            return null;
+    public RecipeComment instance(ResultSet rs) {
+        RecipeComment recipeComment = new RecipeComment();
+        recipeComment.setId(getInt(rs, "id"));
+        recipeComment.setAuthorId(getInt(rs, "author_id"));
+        recipeComment.setRecipeId(getInt(rs, "recipe_id"));
+        recipeComment.setDate(getDate(rs, "publish_date"));
+        recipeComment.setText(getBlob(rs, "text").toString());
+        return recipeComment;
+    }
+
+    @Override
+    public List<RecipeComment> getByRecipe(Recipe recipe) {
+        List<RecipeComment> comments = new LinkedList<>();
+        try {
+            PreparedStatement statement = super.connection.prepareStatement(
+                    "SELECT * FROM recipe_comment " +
+                            "INNER JOIN \"user\" u on recipe_comment.author_id = u.id WHERE recipe_comment.id = ?"
+            );
+            statement.setInt(1, recipe.getId());
+
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                RecipeComment comment = instance(rs);
+                User author = userDao.instance(rs);
+                author.setId(comment.getAuthorId());
+
+                comment.setAuthor(author);
+                comment.setRecipe(recipe);
+                comments.add(comment);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return comments;
+    }
+
+    @Override
+    public List<RecipeComment> getByRecipeId(int id) {
+        return null;
     }
 }

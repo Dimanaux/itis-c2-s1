@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-class ConnectionSingleton {
+public class ConnectionSingleton {
     private static Connection connection;
 
     private ConnectionSingleton() {
@@ -22,7 +22,7 @@ class ConnectionSingleton {
         );
     }
 
-    static Connection getInstance() {
+    public static Connection getInstance() {
         if (connection == null) {
             try {
                 init();

@@ -3,44 +3,43 @@ package app.db.dao.postgres;
 import app.db.dao.Dao;
 import app.db.models.Model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
 public abstract class AbstractDao<M extends Model> implements Dao<M> {
-    protected final Connection connection;
+    final Connection connection;
 
     AbstractDao(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public boolean save(M model) {
+    public M save(M model) {
         try {
             PreparedStatement statement = new QueryHelper<M>(connection).insert(model);
-            return statement.execute();
+            statement.executeUpdate();
+            ResultSet keys = statement.getGeneratedKeys();
+            keys.next();
+            return instance(keys);
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 
     @Override
     public List<M> getAll() {
-        PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(
+            PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM " + getTableName()
             );
             ResultSet rs = statement.executeQuery();
-            M model = instance(rs);
-            LinkedList<M> models = new LinkedList<>();
-            while (model != null) {
+            List<M> models = new LinkedList<>();
+            
+            while (rs.next()) {
+                M model = instance(rs);
                 models.add(model);
-                model = instance(rs);
             }
             return models;
         } catch (SQLException e) {
@@ -53,11 +52,12 @@ public abstract class AbstractDao<M extends Model> implements Dao<M> {
     public M getById(int id) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    String.format("SELECT * FROM %s WHERE id = ?", getTableName())
+                    String.format("SELECT * FROM %s WHERE id = ? ", getTableName())
             );
             statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            return instance(resultSet);
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            return instance(rs);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -96,5 +96,50 @@ public abstract class AbstractDao<M extends Model> implements Dao<M> {
 
     public abstract String getTableName();
 
-    protected abstract M instance(ResultSet resultSet) throws SQLException;
+    public abstract M instance(ResultSet rs) throws SQLException;
+
+    public String getString(ResultSet rs, String columnName) {
+        try {
+            return rs.getString(columnName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Integer getInt(ResultSet rs, String columnName) {
+        try {
+            return rs.getInt(columnName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getBlob(ResultSet rs, String columnName) {
+        try {
+            return rs.getBlob(columnName).toString();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public Date getDate(ResultSet rs, String columnName) {
+        try {
+            return rs.getDate(columnName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Boolean getBoolean(ResultSet rs, String columnName) {
+        try {
+            return rs.getBoolean(columnName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

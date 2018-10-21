@@ -1,13 +1,16 @@
 package app.db.dao.postgres;
 
 import app.db.annotations.Column;
+import app.db.annotations.Id;
 import app.db.annotations.Table;
 import app.db.models.Model;
 
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -32,7 +35,8 @@ class QueryHelper<M extends Model> {
 
         query.append(" WHERE id = ?;");
 
-        PreparedStatement statement = connection.prepareStatement(query.toString());
+
+        PreparedStatement statement = connection.prepareStatement(query.toString(), new String[]{});
         int i = fillStatement(newModel, notNullColumns, statement);
         statement.setInt(i, id);
 
@@ -53,10 +57,25 @@ class QueryHelper<M extends Model> {
                 .append(join)
                 .append(")");
 
-        PreparedStatement statement = connection.prepareStatement(query.toString());
+        AnnotatedType idField = getIdField(newModel.getClass());
+        String idColumnName = idField.getAnnotation(Column.class).name();
+
+        Statement statement1 = connection.createStatement();
+
+        PreparedStatement statement = connection.prepareStatement(
+                query.toString(),
+                Statement.RETURN_GENERATED_KEYS
+        );
         fillStatement(newModel, notNullColumns, statement);
 
         return statement;
+    }
+
+    private AnnotatedType getIdField(Class<? extends Model> c) {
+        return getColumns(c)
+                .map(Field::getAnnotatedType)
+                .filter(t -> t.isAnnotationPresent(Id.class))
+                .findAny().get();
     }
 
     private int fillStatement(M newModel, List<Field> notNullColumns, PreparedStatement statement) throws SQLException {
@@ -74,7 +93,7 @@ class QueryHelper<M extends Model> {
     }
 
     private String getTableName(M newModel) {
-        return newModel.getClass().getAnnotation(Table.class).tableName();
+        return newModel.getClass().getAnnotation(Table.class).table();
     }
 
     private Stream<Field> fields(Class mClass) {

@@ -11,15 +11,16 @@ import java.util.List;
 
 public class PostDao extends AbstractDao<Post> implements app.db.dao.PostDao {
 
+    private UserDao userDao;
+
     public PostDao() {
         super(ConnectionSingleton.getInstance());
+        userDao = new UserDao();
     }
 
     @Override
     public List<Post> getByAuthor(User author) {
-        LinkedList<Post> posts = new LinkedList<>();
-
-        // TODO: 18/10/18 JOIN
+        List<Post> posts = new LinkedList<>();
         try {
             PreparedStatement statement = super.connection.prepareStatement(
                     "SELECT * FROM post WHERE author_id = ?"
@@ -27,21 +28,44 @@ public class PostDao extends AbstractDao<Post> implements app.db.dao.PostDao {
             statement.setInt(1, author.getId());
 
             ResultSet rs = statement.executeQuery();
-
-            Post post = instance(rs);
-            while (post != null) {
-                posts.add(post);
-                post = instance(rs);
-                // TODO: 18/10/18 or JOIN?
+            while (rs.next()) {
+                Post post = instance(rs);
                 post.setAuthor(author);
+                posts.add(post);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
         return posts;
+    }
 
+    @Override
+    public List<Post> getByAuthorId(int id) {
+        User author = userDao.getById(id);
+        return getByAuthor(author);
+    }
+
+    @Override
+    public List<Post> getAll() {
+        try {
+            List<Post> posts = new LinkedList<>();
+
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM post INNER JOIN \"user\" u on post.author_id = u.id"
+            );
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Post post = instance(rs);
+                User user = userDao.instance(rs);
+                user.setId(post.getAuthorId());
+                post.setAuthor(user);
+                posts.add(post);
+            }
+            return posts;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new LinkedList<>();
+        }
     }
 
     @Override
@@ -50,16 +74,13 @@ public class PostDao extends AbstractDao<Post> implements app.db.dao.PostDao {
     }
 
     @Override
-    protected Post instance(ResultSet rs) throws SQLException {
-        if (rs.next()) {
-            Post post = new Post();
-            post.setId(rs.getInt("id"));
-            post.setAuthorId(rs.getInt("author_id"));
-            post.setDate(rs.getDate("publish_date"));
-            post.setText(rs.getBlob("text").toString());
-            return post;
-        } else {
-            return null;
-        }
+    public Post instance(ResultSet rs) {
+        Post post = new Post();
+        post.setId(getInt(rs, "id"));
+        post.setTitle(getString(rs, "title"));
+        post.setAuthorId(getInt(rs, "author_id"));
+        post.setDate(getDate(rs, "publish_date"));
+        post.setText(getBlob(rs, "text"));
+        return post;
     }
 }

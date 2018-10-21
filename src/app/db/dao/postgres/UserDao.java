@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDao extends AbstractDao<User> implements app.db.dao.UserDao {
-    UserDao() {
+    public UserDao() {
         super(ConnectionSingleton.getInstance());
     }
 
@@ -20,6 +20,7 @@ public class UserDao extends AbstractDao<User> implements app.db.dao.UserDao {
             statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
 
+            rs.next();
             return instance(rs);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -33,16 +34,12 @@ public class UserDao extends AbstractDao<User> implements app.db.dao.UserDao {
     }
 
     @Override
-    protected User instance(ResultSet rs) throws SQLException {
-        if (rs.next()) {
-            User user = new User();
-            user.setId(rs.getInt("id"));
-            user.setUsername(rs.getString("username"));
-            user.setPassword(rs.getString("password"));
-            user.setName(rs.getString("name"));
-            return user;
-        } else {
-            return null;
-        }
+    public User instance(ResultSet rs) {
+        User user = new User();
+        user.setId(getInt(rs, "id"));
+        user.setUsername(getString(rs, "username"));
+        user.setPassword(getString(rs, "password"));
+        user.setName(getString(rs, "name"));
+        return user;
     }
 }
