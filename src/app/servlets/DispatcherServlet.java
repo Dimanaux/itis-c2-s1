@@ -2,7 +2,6 @@ package app.servlets;
 
 import app.util.Pair;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,41 +14,37 @@ import java.util.regex.Pattern;
 
 @WebServlet(name = "DispatcherServlet")
 public class DispatcherServlet extends HttpServlet {
-    private List<Pair<Pattern, RequestDispatcher>> map;
+    private List<Pair<Pattern, HttpServlet>> map;
 
     @Override
     public void init() {
         map = new LinkedList<>();
 
-        addPattern("/posts/new", "/posts/new");
-        addPattern("/posts/([1-9][0-9]*)/edit", "/posts/:id/edit");
-        addPattern("/posts/([1-9][0-9]*)", "/posts/:id");
-        addPattern("/posts", "/posts");
+        add("/posts/new",                   new app.servlets.posts.PostsNewServlet());
+        add("/posts/([1-9][0-9]*)/edit",    new app.servlets.posts.PostsIdEditServlets());
+        add("/posts/([1-9][0-9]*)",         new app.servlets.posts.PostsIdServlet());
+        add("/posts",                       new app.servlets.posts.PostsIndexServlet());
 
-        addPattern("/posts/([1-9][0-9]*)/comments/new", "/posts/:id/comments/new");
-        addPattern("/posts/([1-9][0-9]*)/comments/([1-9][0-9]*)/edit", "/posts/:id/comments/:id/edit");
-        addPattern("/posts/([1-9][0-9]*)/comments/([1-9][0-9]*)", "/posts/:id/comments/:id");
-        addPattern("/posts/([1-9][0-9]*)/comments", "/posts/:id/comments");
+        add("/posts/([1-9][0-9]*)/comments/new",                new app.servlets.posts.id.comments.CommentsNewServlet());
+        add("/posts/([1-9][0-9]*)/comments/([1-9][0-9]*)/edit", new app.servlets.posts.id.comments.CommentsIdEditServlet());
+        add("/posts/([1-9][0-9]*)/comments/([1-9][0-9]*)",      new app.servlets.posts.id.comments.CommentsIdServlet());
+        add("/posts/([1-9][0-9]*)/comments",                    new app.servlets.posts.id.comments.CommentsIndexServlet());
 
+        add("/recipes/new",                 new app.servlets.recipes.RecipesNewServlet());
+        add("/recipes/([1-9][0-9]*)/edit",  new app.servlets.recipes.RecipesIdEditServlets());
+        add("/recipes/([1-9][0-9]*)",       new app.servlets.recipes.RecipesIdServlet());
+        add("/recipes",                     new app.servlets.recipes.RecipesIndexServlet());
 
-        addPattern("/recipes/new", "/recipes/new");
-        addPattern("/recipes/([1-9][0-9]*)/edit", "/recipes/:id/edit");
-        addPattern("/recipes/([1-9][0-9]*)", "/recipes/:id");
-        addPattern("/recipes", "/recipes");
-
-        addPattern("/recipes/([1-9][0-9]*)/comments/new", "/recipes/:id/comments/new");
-        addPattern("/recipes/([1-9][0-9]*)/comments/([1-9][0-9]*)/edit", "/recipes/:id/comments/:id/edit");
-        addPattern("/recipes/([1-9][0-9]*)/comments/([1-9][0-9]*)", "/recipes/:id/comments/:id");
-        addPattern("/recipes/([1-9][0-9]*)/comments", "/recipes/:id/comments");
+        add("/recipes/([1-9][0-9]*)/comments/new",                  new app.servlets.recipes.id.comments.CommentsNewServlet());
+        add("/recipes/([1-9][0-9]*)/comments/([1-9][0-9]*)/edit",   new app.servlets.recipes.id.comments.CommentsIdEditServlet());
+        add("/recipes/([1-9][0-9]*)/comments/([1-9][0-9]*)",        new app.servlets.recipes.id.comments.CommentsIdServlet());
+        add("/recipes/([1-9][0-9]*)/comments",                      new app.servlets.recipes.id.comments.CommentsIndexServlet());
 
         // TODO: 18/10/19 add url patterns
-        // TODO: 18/10/20 order patterns in the right way
-
-
     }
 
-    private void addPattern(String regex, String dumbUrl) {
-        map.add(new Pair<>(Pattern.compile(regex), getServletContext().getRequestDispatcher(dumbUrl)));
+    private void add(String regex, HttpServlet servlet) {
+        map.add(new Pair<>(Pattern.compile(regex), servlet));
     }
 
     @Override
@@ -58,7 +53,8 @@ public class DispatcherServlet extends HttpServlet {
 
         for (var pair : map) {
             if (pair.getKey().matcher(uri).matches()) {
-                pair.getValue().forward(req, resp);
+                pair.getValue().init(getServletConfig());
+                pair.getValue().service(req, resp);
                 return;
             }
         }
