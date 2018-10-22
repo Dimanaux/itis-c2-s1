@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 
 class SecurityService {
 //    private static final byte[] SALT = new byte[] { 100, 16, -85, -9, -32, -81, -85, 109, 44, -10, -89, 62, -65, 42, 111, -32 };
-    private String hashPassword(String password) {
+    String hashPassword(String password) {
         MessageDigest md;
         try {
             md = MessageDigest.getInstance("SHA-512");
