@@ -1,38 +1,20 @@
 package app.servlets.posts.id.comments;
 
 import app.services.PostCommentService;
-import app.services.PostService;
-import app.services.UserService;
-import app.servlets.AbstractServlet;
-import app.util.Helper;
+import app.servlets.posts.AbstractPostsServlet;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class AbstractCommentsServlet extends AbstractServlet {
-    private Helper helper;
-    private UserService userService;
-    private PostService postService;
+public abstract class AbstractCommentsServlet extends AbstractPostsServlet {
     private PostCommentService commentService;
 
     @Override
-    public void init() {
-        helper = new Helper(getServletContext());
-        userService = new UserService();
-        postService = new PostService();
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
         commentService = new PostCommentService();
-    }
-
-    Helper getHelper() {
-        return helper;
-    }
-
-    UserService getUserService() {
-        return userService;
-    }
-
-    PostService getPostService() {
-        return postService;
     }
 
     PostCommentService getCommentService() {

@@ -1,29 +1,18 @@
 package app.servlets.ingredients;
 
 import app.services.IngredientService;
-import app.services.UserService;
-import app.util.Helper;
+import app.servlets.AbstractServlet;
 
-import javax.servlet.http.HttpServlet;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 
-public class AbstractIngredientsServlet extends HttpServlet {
-    private Helper helper;
-    private UserService userService;
+public class AbstractIngredientsServlet extends AbstractServlet {
     private IngredientService ingredientService;
 
     @Override
-    public void init() {
-        helper = new Helper(getServletContext());
-        userService = new UserService();
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
         ingredientService = new IngredientService();
-    }
-
-    public Helper getHelper() {
-        return helper;
-    }
-
-    public UserService getUserService() {
-        return userService;
     }
 
     public IngredientService getIngredientService() {

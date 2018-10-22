@@ -2,38 +2,20 @@ package app.servlets.recipes.id.comments;
 
 
 import app.services.RecipeCommentService;
-import app.services.RecipeService;
-import app.services.UserService;
-import app.servlets.AbstractServlet;
-import app.util.Helper;
+import app.servlets.recipes.AbstractRecipesServlet;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class AbstractCommentsServlet extends AbstractServlet {
-    private Helper helper;
-    private UserService userService;
-    private RecipeService recipeService;
+public abstract class AbstractCommentsServlet extends AbstractRecipesServlet {
     private RecipeCommentService commentService;
 
     @Override
-    public void init() {
-        helper = new Helper(getServletContext());
-        userService = new UserService();
-        recipeService = new RecipeService();
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
         commentService = new RecipeCommentService();
-    }
-
-    Helper getHelper() {
-        return helper;
-    }
-
-    UserService getUserService() {
-        return userService;
-    }
-
-    RecipeService getRecipeService() {
-        return recipeService;
     }
 
     RecipeCommentService getCommentService() {

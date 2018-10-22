@@ -36,7 +36,6 @@ public class PostsIdServlet extends AbstractPostsServlet {
         User user = getUserService().authenticate(req);
         int id = getId(req.getRequestURI());
         Post post = getPostService().getPostById(id);
-        boolean canEdit = post.getAuthor().equals(user);
 
         getHelper().render(
                 resp,
@@ -44,7 +43,6 @@ public class PostsIdServlet extends AbstractPostsServlet {
                 new HashMap<>() {{
                     put("user", user);
                     put("post", post);
-                    put("can_edit", canEdit);
                 }}
         );
     }
