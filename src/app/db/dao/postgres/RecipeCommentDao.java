@@ -33,7 +33,7 @@ public class RecipeCommentDao extends AbstractDao<RecipeComment> implements app.
         recipeComment.setAuthorId(getInt(rs, "author_id"));
         recipeComment.setRecipeId(getInt(rs, "recipe_id"));
         recipeComment.setDate(getDate(rs, "publish_date"));
-        recipeComment.setText(getBlob(rs, "text").toString());
+        recipeComment.setText(getString(rs, "text").toString());
         return recipeComment;
     }
 

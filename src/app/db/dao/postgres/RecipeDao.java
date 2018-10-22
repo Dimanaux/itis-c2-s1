@@ -30,7 +30,7 @@ public class RecipeDao extends AbstractDao<Recipe> implements app.db.dao.RecipeD
         recipe.setAuthorId(getInt(rs, "author_id"));
         recipe.setDishId(getInt(rs, "dish_id"));
         recipe.setDate(getDate(rs, "publish_date"));
-        recipe.setText(getBlob(rs, "text"));
+        recipe.setText(getString(rs, "text"));
         return recipe;
     }
 

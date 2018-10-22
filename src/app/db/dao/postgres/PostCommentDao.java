@@ -31,7 +31,7 @@ public class PostCommentDao extends AbstractDao<PostComment> implements app.db.d
         postComment.setAuthorId(getInt(rs, "author_id"));
         postComment.setPostId(getInt(rs, "post_id"));
         postComment.setDate(getDate(rs, "publish_date"));
-        postComment.setText(getBlob(rs, "text"));
+        postComment.setText(getString(rs, "text"));
         return postComment;
     }
 

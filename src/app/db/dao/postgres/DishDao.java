@@ -39,7 +39,7 @@ public class DishDao extends AbstractDao<Dish> implements app.db.dao.DishDao {
         Dish dish = new Dish();
         dish.setId(getInt(rs, "id"));
         dish.setName(getString(rs, "name"));
-        dish.setDescription(getBlob(rs, "description"));
+        dish.setDescription(getString(rs, "description"));
         dish.setVegan(getBoolean(rs, "is_vegan"));
         return dish;
     }

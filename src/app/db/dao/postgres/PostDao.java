@@ -80,7 +80,7 @@ public class PostDao extends AbstractDao<Post> implements app.db.dao.PostDao {
         post.setTitle(getString(rs, "title"));
         post.setAuthorId(getInt(rs, "author_id"));
         post.setDate(getDate(rs, "publish_date"));
-        post.setText(getBlob(rs, "text"));
+        post.setText(getString(rs, "text"));
         return post;
     }
 }
