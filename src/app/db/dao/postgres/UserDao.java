@@ -29,6 +29,26 @@ public class UserDao extends AbstractDao<User> implements app.db.dao.UserDao {
     }
 
     @Override
+    public User getUserByToken(String token) {
+        try {
+            PreparedStatement statement = super.connection.prepareStatement(
+                    "SELECT u.id, u.username, u.password, u.name" +
+                            " FROM \"user\" u INNER JOIN user_token_relation t" +
+                            " ON u.id = t.user_id WHERE token = ? LIMIT 1"
+            );
+            statement.setString(1, token);
+            ResultSet rs = statement.executeQuery();
+
+            rs.next();
+            User instance = instance(rs);
+            return instance;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public String getTableName() {
         return "\"user\"";
     }
