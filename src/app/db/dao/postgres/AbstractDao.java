@@ -98,7 +98,7 @@ public abstract class AbstractDao<M extends Model> implements Dao<M> {
 
     public abstract M instance(ResultSet rs) throws SQLException;
 
-    public String getString(ResultSet rs, String columnName) {
+    String getString(ResultSet rs, String columnName) {
         try {
             return rs.getString(columnName);
         } catch (SQLException e) {
@@ -107,7 +107,7 @@ public abstract class AbstractDao<M extends Model> implements Dao<M> {
         }
     }
 
-    public Integer getInt(ResultSet rs, String columnName) {
+    Integer getInt(ResultSet rs, String columnName) {
         try {
             return rs.getInt(columnName);
         } catch (SQLException e) {
@@ -116,16 +116,7 @@ public abstract class AbstractDao<M extends Model> implements Dao<M> {
         }
     }
 
-    public String getBlob(ResultSet rs, String columnName) {
-        try {
-            return rs.getBlob(columnName).toString();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    
-    public Date getDate(ResultSet rs, String columnName) {
+    Date getDate(ResultSet rs, String columnName) {
         try {
             return rs.getDate(columnName);
         } catch (SQLException e) {
@@ -134,7 +125,7 @@ public abstract class AbstractDao<M extends Model> implements Dao<M> {
         }
     }
 
-    public Boolean getBoolean(ResultSet rs, String columnName) {
+    Boolean getBoolean(ResultSet rs, String columnName) {
         try {
             return rs.getBoolean(columnName);
         } catch (SQLException e) {
