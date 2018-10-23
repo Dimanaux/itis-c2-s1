@@ -5,15 +5,13 @@ import app.db.annotations.Id;
 import app.db.annotations.Table;
 import app.db.models.Model;
 
-import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 class QueryHelper<M extends Model> {
     private final Connection connection;
@@ -27,16 +25,17 @@ class QueryHelper<M extends Model> {
         query.append(getTableName(newModel));
         query.append(" SET ");
 
-        List<Field> notNullColumns = getNotNullColumns(newModel).collect(Collectors.toList());
+        List<Field> notNullColumns = getNotNullColumns(newModel);
 
         query.append(
-                join("? = ?", ", ", notNullColumns.size())
+                join("? = ?", notNullColumns.size())
         );
-
         query.append(" WHERE id = ?;");
 
-
-        PreparedStatement statement = connection.prepareStatement(query.toString(), new String[]{});
+        PreparedStatement statement = connection.prepareStatement(
+                query.toString(),
+                Statement.RETURN_GENERATED_KEYS
+        );
         int i = fillStatement(newModel, notNullColumns, statement);
         statement.setInt(i, id);
 
@@ -47,85 +46,100 @@ class QueryHelper<M extends Model> {
         StringBuilder query = new StringBuilder();
         query.append("INSERT INTO ")
                 .append(getTableName(newModel))
-                .append("(");
+                .append(" (");
 
-        List<Field> notNullColumns = getNotNullColumns(newModel).collect(Collectors.toList());
+        List<Field> notNullColumns = getNotNullColumns(newModel);
 
-        String join = join("?", ", ", notNullColumns.size());
-        query.append(join)
+        String columns = join("%s", notNullColumns.size());
+        String values = join("?", notNullColumns.size());
+        query.append(columns)
                 .append(") VALUES (")
-                .append(join)
-                .append(")");
+                .append(values)
+                .append(");");
 
-        AnnotatedType idField = getIdField(newModel.getClass());
-        String idColumnName = idField.getAnnotation(Column.class).name();
-
-        Statement statement1 = connection.createStatement();
+        String queryAsString = query.toString();
 
         PreparedStatement statement = connection.prepareStatement(
-                query.toString(),
+                String.format(queryAsString, (Object[]) columnNames(notNullColumns)),
                 Statement.RETURN_GENERATED_KEYS
         );
+
         fillStatement(newModel, notNullColumns, statement);
 
         return statement;
     }
 
-    private AnnotatedType getIdField(Class<? extends Model> c) {
-        return getColumns(c)
-                .map(Field::getAnnotatedType)
-                .filter(t -> t.isAnnotationPresent(Id.class))
-                .findAny().get();
+    private String[] columnNames(List<Field> columns) {
+        String[] names = new String[columns.size()];
+        for (int i = 0; i < names.length; i++) {
+            names[i] = columns.get(i).getAnnotation(Column.class).name();
+        }
+        return names;
     }
 
-    private int fillStatement(M newModel, List<Field> notNullColumns, PreparedStatement statement) throws SQLException {
-        int i = 1;
+    private Field getIdField(Class<? extends Model> clazz) {
+        for (var c : getColumns(clazz)) {
+            if (c.getAnnotatedType().isAnnotationPresent(Id.class)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    private int fillStatement(M values, List<Field> notNullColumns, PreparedStatement statement) throws SQLException {
+        int count = 1;
         for (Field f : notNullColumns) {
             f.setAccessible(true);
             try {
-                statement.setString(i, String.valueOf(f.get(newModel)));
+                statement.setString(count, String.valueOf(f.get(values)));
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-            i++;
+            count++;
         }
-        return i;
+        return count;
     }
 
     private String getTableName(M newModel) {
         return newModel.getClass().getAnnotation(Table.class).table();
     }
 
-    private Stream<Field> fields(Class mClass) {
-        return Stream.of(mClass.getDeclaredFields());
+    private boolean isColumn(Field field) {
+        return field.getAnnotation(Column.class) != null;
     }
 
-    private Stream<Field> getColumns(Class mClass) {
-        return fields(mClass).filter(
-                f -> f.getAnnotatedType().isAnnotationPresent(Column.class)
-        );
+    private List<Field> getColumns(Class<? extends Model> clazz) {
+        List<Field> columns = new ArrayList<>();
+        Field[] fields = clazz.getDeclaredFields();
+        for (var f : fields) {
+            if (isColumn(f)) {
+                columns.add(f);
+            }
+        }
+        return columns;
     }
 
-    private Stream<Field> getNotNullColumns(M instance) {
-        return getColumns(instance.getClass()).filter(
-                f -> {
-                    boolean notNull = false;
-                    f.setAccessible(true);
-                    try {
-                        notNull = f.get(instance) != null;
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                    return notNull;
+    private List<Field> getNotNullColumns(M instance) {
+        List<Field> notNull = new ArrayList<>();
+
+        for (var f : getColumns(instance.getClass())) {
+            f.setAccessible(true);
+            try {
+                if (f.get(instance) != null) {
+                    notNull.add(f);
                 }
-        );
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return notNull;
     }
 
-    private String join(String string, String separator, int times) {
+    private String join(String string, int times) {
         StringBuilder builder = new StringBuilder();
         builder.append(string);
         for (int i = 1; i < times; i++) {
-            builder.append(separator);
+            builder.append(", ");
             builder.append(string);
         }
         return builder.toString();
