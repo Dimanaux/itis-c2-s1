@@ -14,7 +14,7 @@ CREATE TABLE post (
   text         TEXT        NOT NULL,
   publish_date TIMESTAMP   NOT NULL DEFAULT now(),
   CONSTRAINT pk_post PRIMARY KEY (id),
-  FOREIGN KEY (author_id) REFERENCES "user" (id)
+  FOREIGN KEY (author_id) REFERENCES "user" (id) ON DELETE CASCADE
 );
 
 CREATE TABLE post_comment (
@@ -24,8 +24,8 @@ CREATE TABLE post_comment (
   text         TEXT      NOT NULL,
   publish_date TIMESTAMP NOT NULL DEFAULT now(),
   CONSTRAINT pk_post_comment PRIMARY KEY (id),
-  CONSTRAINT comment_author_fk FOREIGN KEY (author_id) REFERENCES "user" (id),
-  CONSTRAINT comment_post_fk FOREIGN KEY (post_id) REFERENCES post (id)
+  CONSTRAINT comment_author_fk FOREIGN KEY (author_id) REFERENCES "user" (id) ON DELETE CASCADE,
+  CONSTRAINT comment_post_fk FOREIGN KEY (post_id) REFERENCES post (id) ON DELETE CASCADE
 );
 
 CREATE TABLE ingredient (
@@ -51,8 +51,8 @@ CREATE TABLE recipe (
   text         TEXT        NOT NULL,
   publish_date TIMESTAMP   NOT NULL DEFAULT now(),
   CONSTRAINT pk_recipe PRIMARY KEY (id),
-  CONSTRAINT recipe_dish_fk FOREIGN KEY (dishId) REFERENCES dish (id),
-  CONSTRAINT recipe_author_fk FOREIGN KEY (authorId) REFERENCES "user" (id)
+  CONSTRAINT recipe_dish_fk FOREIGN KEY (dishId) REFERENCES dish (id) ON DELETE CASCADE,
+  CONSTRAINT recipe_author_fk FOREIGN KEY (authorId) REFERENCES "user" (id) ON DELETE CASCADE
 );
 
 CREATE TABLE recipe_comment (
@@ -62,21 +62,21 @@ CREATE TABLE recipe_comment (
   text         TEXT      NOT NULL,
   publish_date TIMESTAMP NOT NULL DEFAULT now(),
   CONSTRAINT pk_recipe_comment PRIMARY KEY (id),
-  CONSTRAINT comment_author_fk FOREIGN KEY (author_id) REFERENCES "user" (id),
-  CONSTRAINT comment_recipe_fk FOREIGN KEY (recipe_id) REFERENCES recipe (id)
+  CONSTRAINT comment_author_fk FOREIGN KEY (author_id) REFERENCES "user" (id) ON DELETE CASCADE,
+  CONSTRAINT comment_recipe_fk FOREIGN KEY (recipe_id) REFERENCES recipe (id) ON DELETE CASCADE
 );
 
 CREATE TABLE ingredient_recipe_relation (
   ingredient_id INTEGER NOT NULL,
   recipe_id     INTEGER NOT NULL,
   CONSTRAINT unique_pair_ingredient_recipe UNIQUE (ingredient_id, recipe_id),
-  CONSTRAINT ingredient_fk FOREIGN KEY (ingredient_id) REFERENCES ingredient (id),
-  CONSTRAINT recipe_fk FOREIGN KEY (recipe_id) REFERENCES recipe (id)
+  CONSTRAINT ingredient_fk FOREIGN KEY (ingredient_id) REFERENCES ingredient (id) ON DELETE CASCADE,
+  CONSTRAINT recipe_fk FOREIGN KEY (recipe_id) REFERENCES recipe (id) ON DELETE CASCADE
 );
 
 CREATE TABLE user_token_relation (
   user_id INTEGER      NOT NULL,
   token   VARCHAR(128) NOT NULL,
-  CONSTRAINT user_token_relation_user_fk FOREIGN KEY (user_id) REFERENCES "user" (id),
+  CONSTRAINT user_token_relation_user_fk FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE,
   CONSTRAINT unique_pair_user_token UNIQUE (user_id)
 );
