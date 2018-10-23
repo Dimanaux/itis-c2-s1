@@ -40,12 +40,28 @@ public class UserDao extends AbstractDao<User> implements app.db.dao.UserDao {
             ResultSet rs = statement.executeQuery();
 
             rs.next();
-            User instance = instance(rs);
-            return instance;
+            return instance(rs);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public boolean saveOrUpdateToken(String token, int userId) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO user_token_relation (user_id, token) VALUES (?, ?) ON CONFLICT (user_id) DO UPDATE SET token = ?"
+            );
+            statement.setInt(1, userId);
+            statement.setString(2, token);
+            statement.setString(3, token);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
