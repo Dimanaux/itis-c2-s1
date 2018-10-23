@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Create Recipe</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link href="./static/css/edit_profile.css" rel="stylesheet">
+</head>
+<body>
+	<header>
+		<div class="brand">BR4ND</div>
+		<div class="search">
+			<span class="search-border">
+				<input type="search" id="search-input" placeholder="Search">
+				<button type="submit" id="search-button">&#128269;</button>
+			</span>
+		</div>
+		<div class="bar__right">
+			<a href="login.html" class="topnav-button">Log In</a>
+			<a href="register.html" class="topnav-button">Sign Up</a>
+		</div>
+	</header>
+	<main>
+		<div class="wrapper" style="background-image: url(./static/res/food.jpg);">
+			<div class="logo">
+			</div>
+			<div class="container-wrapper">
+				<div class="sidemenu">
+					<ul id="sidemenu">
+						<li><a href="recipes.html">Main</a></li>
+						<li><a href="ingredients.html">Ingredients</a></li>
+						<li class="current"><a href="profile.html">My Profile</a></li>
+						<li><a href="order.html">Order Food</a></li>				
+						<li><a href="help.html">Help</a></li>
+						<li><a href="about.html">About</a></li>
+					</ul>
+				</div>
+				<div class="container">
+					<div class="label">Edit profile: </div>
+					<div class="recipe">
+						<form class="recipe-form" method="post">
+							<input class="input" type="text" name="name" id="name" placeholder="First name">
+							<input class="input" type="text" name="name" id="name" placeholder="Last name">
+							<input class="input" type="text" name="name" id="name" placeholder="E-mail">
+							<label class="avatar-label">Avatar:</label>
+							<input type="file" name="photo" id="photo" accept=".jpg, .jpeg, .png">
+							<label id="photo-label" for="photo"><span class="upload-icon">&#10531;</span> Choose an image</label>
+							<button type="submit" id="button-submit">Save</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<script type="text/javascript" src="./static/js/file_input.js"></script>
+	<script type="text/javascript" src="./static/js/goto.js"></script>
+</body>
+</html>
