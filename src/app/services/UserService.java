@@ -54,6 +54,13 @@ public class UserService {
         }
     }
 
+    public void logout(HttpServletRequest req, HttpServletResponse resp) {
+        req.getSession().removeAttribute("current_user");
+        Cookie delete = new Cookie("remember_me", "pop");
+        delete.setMaxAge(1);
+        resp.addCookie(delete);
+    }
+
     /**
      * Remembers user for 3 days
      * @param resp response to send to user
