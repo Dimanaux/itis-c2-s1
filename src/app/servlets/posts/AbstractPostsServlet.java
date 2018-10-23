@@ -15,7 +15,7 @@ public abstract class AbstractPostsServlet extends AbstractServlet {
         postService = new PostService();
     }
 
-    PostService getPostService() {
+    protected PostService getPostService() {
         return postService;
     }
 }
