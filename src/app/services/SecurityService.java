@@ -3,6 +3,8 @@ package app.services;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+import java.util.Date;
 
 class SecurityService {
 //    private static final byte[] SALT = new byte[] { 100, 16, -85, -9, -32, -81, -85, 109, 44, -10, -89, 62, -65, 42, 111, -32 };
@@ -18,6 +20,10 @@ class SecurityService {
 
         byte[] hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
 
-        return new String(hashedPassword, StandardCharsets.US_ASCII);
+        return Base64.getEncoder().encodeToString(hashedPassword);
+    }
+
+    String createToken(String seed) {
+        return hashPassword(seed + new Date());
     }
 }
