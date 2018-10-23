@@ -54,8 +54,8 @@ CREATE TABLE recipe (
   text         TEXT        NOT NULL,
   publish_date TIMESTAMP   NOT NULL DEFAULT now(),
   CONSTRAINT pk_recipe PRIMARY KEY (id),
-  CONSTRAINT recipe_dish_fk FOREIGN KEY (dishId) REFERENCES dish (id) ON DELETE CASCADE,
-  CONSTRAINT recipe_author_fk FOREIGN KEY (authorId) REFERENCES "user" (id) ON DELETE CASCADE
+  CONSTRAINT recipe_dish_fk FOREIGN KEY (dish_id) REFERENCES dish (id) ON DELETE CASCADE,
+  CONSTRAINT recipe_author_fk FOREIGN KEY (author_id) REFERENCES "user" (id) ON DELETE CASCADE
 );
 
 CREATE TABLE recipe_comment (
