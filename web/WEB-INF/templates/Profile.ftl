@@ -16,6 +16,7 @@
         <div class="container-wrapper">
             <@sidemenu></@sidemenu>
             <div class="container">
+
                 <@profile_view></@profile_view>
 
                 <@recipes_view></@recipes_view>
@@ -25,3 +26,4 @@
     </div>
 </#macro>
 
+<@page></@page>

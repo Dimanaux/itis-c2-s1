@@ -1,6 +1,9 @@
 <#include "base.ftl">
 
-<#macro titie>Auth</#macro>
+<#macro title>Auth</#macro>
+<#macro imports>
+    <link href="./static/css/login.css" rel="stylesheet">
+</#macro>
 
 <#macro content>
     <div class="wrapper" style="background-image: url(res/food.jpg);">
@@ -13,7 +16,7 @@
                 <p><input type="password" class="login-input" name="password" placeholder="Password"></p>
 
                 <div class="form-bottom">
-                    Don't have an account? <a href="register.html">Sign up!</a>
+                    Don't have an account? <a href="/registration">Sign up!</a>
                     <button type="submit" class="button-submit" name="submit">Log in</button>
                 </div>
                 <div>

@@ -7,12 +7,18 @@
 
 <#macro page>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <@title></@title>
+    <meta charset="UTF-8">
+    <title><@title></@title></title>
+
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="./static/css/about.css" rel="stylesheet">
-    <script type="text/javascript" src="./static/js/goto.js" async></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" defer></script>
+    <script src="./static/js/goto.js" defer></script>
+    <script src="./static/js/script.js" defer></script>
+
     <@imports></@imports>
 </head>
 <body>
@@ -23,6 +29,3 @@
 </body>
 </html>
 </#macro>
-
-
-

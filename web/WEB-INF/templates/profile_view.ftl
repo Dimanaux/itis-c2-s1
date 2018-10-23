@@ -1,6 +1,6 @@
 <#-- @ftlvariable name="user" type="app.db.models.User" -->
 <#macro profile_view>
-    <a href="edit_profile.html" class="edit">&#9998;</a>
+    <a href="/profile/edit" class="edit">&#9998;</a>
 
     <div class="user-profile">
         <img src="./static/res/profile.jpg"/>
