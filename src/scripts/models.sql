@@ -1,11 +1,14 @@
 CREATE TABLE "user" (
   id       SERIAL      NOT NULL,
   username VARCHAR(16) NOT NULL,
-  password VARCHAR(128) NOT NULL,
+  password VARCHAR(64) NOT NULL,
   name     VARCHAR(20) DEFAULT NULL,
   CONSTRAINT pk_user PRIMARY KEY (id),
   CONSTRAINT unique_username UNIQUE (username)
 );
+
+ALTER TABLE "user"
+  ALTER COLUMN password TYPE VARCHAR(128);
 
 CREATE TABLE post (
   id           SERIAL      NOT NULL,
@@ -46,8 +49,8 @@ CREATE TABLE dish (
 CREATE TABLE recipe (
   id           SERIAL      NOT NULL,
   title        VARCHAR(40) NOT NULL,
-  dishId       INTEGER     NOT NULL,
-  authorId     INTEGER     NOT NULL,
+  dish_id      INTEGER     NOT NULL,
+  author_id    INTEGER     NOT NULL,
   text         TEXT        NOT NULL,
   publish_date TIMESTAMP   NOT NULL DEFAULT now(),
   CONSTRAINT pk_recipe PRIMARY KEY (id),
