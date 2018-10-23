@@ -29,7 +29,7 @@ public class UserService {
         }
 
         Optional<Cookie> token = Arrays.stream(req.getCookies())
-                .filter(c -> c.getName().equals("token"))
+                .filter(c -> c.getName().equals("remember_me"))
                 .findAny();
         return token.map(cookie -> authorize(req, userDao.getUserByToken(cookie.getValue()))).orElse(null);
     }
@@ -86,7 +86,6 @@ public class UserService {
                 securityService.hashPassword(password)
         );
         user.setName(name);
-        userDao.save(user);
-        return user;
+        return userDao.save(user);
     }
 }
