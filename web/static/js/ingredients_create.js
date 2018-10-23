@@ -37,4 +37,4 @@ document.getElementById("add__button").onclick = function addButton() {
 			});
 		}
 	});
-}
+};
