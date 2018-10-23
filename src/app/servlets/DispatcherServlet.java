@@ -20,6 +20,9 @@ public class DispatcherServlet extends HttpServlet {
     public void init() {
         map = new LinkedList<>();
 
+        add("/auth", new app.servlets.auth.AuthServlet());
+        add("/registration", new app.servlets.auth.RegistrationServlet());
+
         add("/posts/new",                   new app.servlets.posts.PostsNewServlet());
         add("/posts/([1-9][0-9]*)/edit",    new app.servlets.posts.PostsIdEditServlets());
         add("/posts/([1-9][0-9]*)",         new app.servlets.posts.PostsIdServlet());
