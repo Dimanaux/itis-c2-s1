@@ -10,12 +10,31 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PostDao extends AbstractDao<Post> implements app.db.dao.PostDao {
-
     private UserDao userDao;
 
     public PostDao() {
         super(ConnectionSingleton.getInstance());
         userDao = new UserDao();
+    }
+
+    @Override
+    public Post getById(int id) {
+        try {
+            PreparedStatement statement = super.connection.prepareStatement(
+                    "SELECT * FROM post p INNER JOIN \"user\" u on p.author_id = u.id WHERE p.id = ?"
+            );
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+
+            Post post = instance(rs);
+            User author = userDao.instance(rs);
+            author.setId(post.getAuthorId());
+            return post;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package app.db.dao.postgres;
 
+import app.db.models.Dish;
+import app.db.models.Ingredient;
 import app.db.models.Recipe;
 import app.db.models.User;
 
@@ -11,10 +13,12 @@ import java.util.List;
 
 public class RecipeDao extends AbstractDao<Recipe> implements app.db.dao.RecipeDao {
     private UserDao userDao;
+    private IngredientDao ingredientDao;
 
     public RecipeDao() {
         super(ConnectionSingleton.getInstance());
         userDao = new UserDao();
+        ingredientDao = new IngredientDao();
     }
 
     @Override
@@ -31,6 +35,45 @@ public class RecipeDao extends AbstractDao<Recipe> implements app.db.dao.RecipeD
         recipe.setDishId(getInt(rs, "dish_id"));
         recipe.setDate(getDate(rs, "publish_date"));
         recipe.setText(getString(rs, "text"));
+        return recipe;
+    }
+
+    private Recipe load(int id) {
+        try {
+            PreparedStatement statement = super.connection.prepareStatement(
+                    "SELECT r.id, r.title, r.author_id, r.dish_id, r.publish_date, r.text, d.name AS d_name, u.name, u.username FROM recipe r " +
+                            " INNER JOIN \"user\" u on r.author_id = u.id" +
+                            " INNER JOIN dish d on r.dish_id = d.id " +
+                            " WHERE r.id = ?"
+            );
+            statement.setInt(1, id);
+
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            Recipe recipe = instance(rs);
+
+            User author = userDao.instance(rs);
+            author.setId(recipe.getAuthorId());
+
+            recipe.setAuthor(author);
+
+            Dish dish = new Dish();
+            dish.setId(recipe.getDishId());
+            dish.setName(getString(rs, "d_name"));
+            recipe.setDish(dish);
+
+            return recipe;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Recipe getById(int id) {
+        Recipe recipe = load(id);
+        List<Ingredient> ingredients = ingredientDao.getByRecipe(recipe);
+        recipe.setIngredients(ingredients);
         return recipe;
     }
 

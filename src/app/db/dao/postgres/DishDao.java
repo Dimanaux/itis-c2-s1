@@ -32,8 +32,7 @@ public class DishDao extends AbstractDao<Dish> implements app.db.dao.DishDao {
     public String getTableName() {
         return "dish";
     }
-
-
+    
     @Override
     public Dish instance(ResultSet rs) {
         Dish dish = new Dish();

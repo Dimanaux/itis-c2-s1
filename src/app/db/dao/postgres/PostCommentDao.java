@@ -13,6 +13,7 @@ import java.util.List;
 public class PostCommentDao extends AbstractDao<PostComment> implements app.db.dao.PostCommentDao {
     private PostDao postDao;
     private UserDao userDao;
+
     PostCommentDao() {
         super(ConnectionSingleton.getInstance());
         this.postDao = new app.db.dao.postgres.PostDao();

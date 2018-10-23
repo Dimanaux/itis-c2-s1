@@ -28,12 +28,14 @@ class QueryHelper<M extends Model> {
         List<Field> notNullColumns = getNotNullColumns(newModel);
 
         query.append(
-                join("? = ?", notNullColumns.size())
+                join("% = ?", notNullColumns.size())
         );
         query.append(" WHERE id = ?;");
 
+        String queryAsString = query.toString();
+
         PreparedStatement statement = connection.prepareStatement(
-                query.toString(),
+                String.format(queryAsString, (Object[]) columnNames(notNullColumns)),
                 Statement.RETURN_GENERATED_KEYS
         );
         int i = fillStatement(newModel, notNullColumns, statement);
@@ -77,15 +79,6 @@ class QueryHelper<M extends Model> {
         return names;
     }
 
-    private Field getIdField(Class<? extends Model> clazz) {
-        for (var c : getColumns(clazz)) {
-            if (c.getAnnotatedType().isAnnotationPresent(Id.class)) {
-                return c;
-            }
-        }
-        return null;
-    }
-
     private int fillStatement(M values, List<Field> notNullColumns, PreparedStatement statement) throws SQLException {
         int count = 1;
         for (Field f : notNullColumns) {
@@ -105,7 +98,7 @@ class QueryHelper<M extends Model> {
     }
 
     private boolean isColumn(Field field) {
-        return field.getAnnotation(Column.class) != null;
+        return field.getAnnotation(Column.class) != null && field.getAnnotation(Id.class) == null;
     }
 
     private List<Field> getColumns(Class<? extends Model> clazz) {

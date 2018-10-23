@@ -18,7 +18,6 @@ public class RecipeCommentDao extends AbstractDao<RecipeComment> implements app.
         super(ConnectionSingleton.getInstance());
         this.userDao = new app.db.dao.postgres.UserDao();
         this.recipeDao = new app.db.dao.postgres.RecipeDao();
-
     }
 
     @Override
@@ -33,7 +32,7 @@ public class RecipeCommentDao extends AbstractDao<RecipeComment> implements app.
         recipeComment.setAuthorId(getInt(rs, "author_id"));
         recipeComment.setRecipeId(getInt(rs, "recipe_id"));
         recipeComment.setDate(getDate(rs, "publish_date"));
-        recipeComment.setText(getString(rs, "text").toString());
+        recipeComment.setText(getString(rs, "text"));
         return recipeComment;
     }
 
@@ -42,8 +41,8 @@ public class RecipeCommentDao extends AbstractDao<RecipeComment> implements app.
         List<RecipeComment> comments = new LinkedList<>();
         try {
             PreparedStatement statement = super.connection.prepareStatement(
-                    "SELECT * FROM recipe_comment " +
-                            "INNER JOIN \"user\" u on recipe_comment.author_id = u.id WHERE recipe_comment.id = ?"
+                    "SELECT * FROM recipe_comment c " +
+                            "INNER JOIN \"user\" u on c.author_id = u.id WHERE c.id = ?"
             );
             statement.setInt(1, recipe.getId());
 
@@ -65,6 +64,7 @@ public class RecipeCommentDao extends AbstractDao<RecipeComment> implements app.
 
     @Override
     public List<RecipeComment> getByRecipeId(int id) {
-        return null;
+        Recipe recipe = recipeDao.getById(id);
+        return getByRecipe(recipe);
     }
 }
