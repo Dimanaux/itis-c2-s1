@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class PostsIdEditServlets extends AbstractPostsServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        User user = getUserService().authenticate(req);
+        User user = getUserService().getCurrentUser(req);
         int id = getId(req.getRequestURI());
         Post post = getPostService().getPostById(id);
 

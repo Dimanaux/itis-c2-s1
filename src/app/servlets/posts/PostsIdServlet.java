@@ -22,7 +22,7 @@ public class PostsIdServlet extends AbstractPostsServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int id = getId(req.getRequestURI());
         Post post = getPostService().getPostById(id);
-        User user = getUserService().authenticate(req);
+        User user = getUserService().getCurrentUser(req);
 
         if (post.getAuthor().equals(user)) {
             getPostService().delete(post);
@@ -33,7 +33,7 @@ public class PostsIdServlet extends AbstractPostsServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        User user = getUserService().authenticate(req);
+        User user = getUserService().getCurrentUser(req);
         int id = getId(req.getRequestURI());
         Post post = getPostService().getPostById(id);
 

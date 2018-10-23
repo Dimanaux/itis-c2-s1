@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class CommentsIndexServlet extends AbstractCommentsServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = getUserService().authenticate(req);
+        User user = getUserService().getCurrentUser(req);
         int recipeId = getRecipeId(req.getRequestURI());
         Recipe recipe = getRecipeService().getRecipeById(recipeId);
 
@@ -36,7 +36,7 @@ public class CommentsIndexServlet extends AbstractCommentsServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         // TODO: 18/10/20 ?
-        User user = getUserService().authenticate(req);
+        User user = getUserService().getCurrentUser(req);
 
         if (user == null) {
             resp.sendRedirect("/auth");

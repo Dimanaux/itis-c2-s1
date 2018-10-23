@@ -4,7 +4,6 @@ import app.db.models.Post;
 import app.db.models.PostComment;
 import app.db.models.User;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +13,8 @@ import java.util.HashMap;
 @WebServlet(urlPatterns = {"/posts/:id/comments"})
 public class CommentsIndexServlet extends AbstractCommentsServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = getUserService().authenticate(req);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        User user = getUserService().getCurrentUser(req);
         int postId = getPostId(req.getRequestURI());
         Post post = getPostService().getPostById(postId);
 
@@ -34,9 +33,8 @@ public class CommentsIndexServlet extends AbstractCommentsServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO: 18/10/20 ?
-        User user = getUserService().authenticate(req);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        User user = getUserService().getCurrentUser(req);
 
         if (user == null) {
             resp.sendRedirect("/auth");

@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class RecipesIdEditServlets extends AbstractRecipesServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        User user = getUserService().authenticate(req);
+        User user = getUserService().getCurrentUser(req);
         int id = getId(req.getRequestURI());
         Recipe recipe = getRecipeService().getRecipeById(id);
 

@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class RecipesNewServlet extends AbstractRecipesServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        User user = getUserService().authenticate(req);
+        User user = getUserService().getCurrentUser(req);
         if (user == null) {
             resp.sendRedirect("/auth");
             return;

@@ -14,7 +14,7 @@ import java.util.List;
 public class PostsIndexServlet extends AbstractPostsServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        User user = getUserService().authenticate(req);
+        User user = getUserService().getCurrentUser(req);
         if (user == null) {
             resp.sendError(403);
             return;
@@ -33,7 +33,7 @@ public class PostsIndexServlet extends AbstractPostsServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         List<Post> posts = getPostService().getAllPosts();
-        User user = getUserService().authenticate(req);
+        User user = getUserService().getCurrentUser(req);
         getHelper().render(
                 resp,
                 "PostsIndex.ftl",

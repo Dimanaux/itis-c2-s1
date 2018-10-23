@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class CommentsNewServlet extends AbstractCommentsServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        User user = getUserService().authenticate(req);
+        User user = getUserService().getCurrentUser(req);
         int postId = getRecipeId(req.getRequestURI());
         Recipe recipe = getRecipeService().getRecipeById(postId);
         if (user == null) {

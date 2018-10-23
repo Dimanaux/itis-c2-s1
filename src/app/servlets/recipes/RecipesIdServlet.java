@@ -22,7 +22,7 @@ public class RecipesIdServlet extends AbstractRecipesServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int id = getId(req.getRequestURI());
         Recipe recipe = getRecipeService().getRecipeById(id);
-        User user = getUserService().authenticate(req);
+        User user = getUserService().getCurrentUser(req);
 
         if (recipe.getAuthor().equals(user)) {
             getRecipeService().delete(recipe);
@@ -33,7 +33,7 @@ public class RecipesIdServlet extends AbstractRecipesServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        User user = getUserService().authenticate(req);
+        User user = getUserService().getCurrentUser(req);
         int id = getId(req.getRequestURI());
         Recipe recipe = getRecipeService().getRecipeById(id);
         boolean canEdit = recipe.getAuthor().equals(user);
