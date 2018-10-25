@@ -45,6 +45,26 @@ public class IngredientDao extends AbstractDao<Ingredient> implements app.db.dao
     }
 
     @Override
+    public void bindToRecipe(Recipe recipe, int[] ids) {
+        try {
+            StringBuilder query = new StringBuilder();
+            query.append("INSERT INTO ingredient_recipe_relation (ingredient_id, recipe_id) VALUES (?, ?)");
+            for (int i = 1; i < ids.length; i++) {
+                query.append(", (?, ?)");
+            }
+            PreparedStatement statement = connection.prepareStatement(query.toString());
+            int count = 1;
+            for (int i : ids) {
+                statement.setInt(count++, i);
+                statement.setInt(count++, recipe.getId());
+            }
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public String getTableName() {
         return "ingredient";
     }

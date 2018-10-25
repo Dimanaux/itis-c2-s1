@@ -4,12 +4,14 @@ import app.db.models.User;
 import app.servlets.AbstractServlet;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
 
+@MultipartConfig
 @WebServlet(name = "ProfilePictureServlet", urlPatterns = {"/profile/picture"})
 public class ProfilePictureServlet extends AbstractServlet {
     @Override

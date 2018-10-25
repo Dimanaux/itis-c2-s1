@@ -1,4 +1,5 @@
 let ingredients = [];
+let dishes = [];
 
 $(document).ready(() => {
     $.ajax({
@@ -6,6 +7,21 @@ $(document).ready(() => {
         type: 'GET',
         success: (data) => {
             ingredients = data;
+        }
+    });
+
+    $.ajax({
+        url: '/dishes',
+        type: 'GET',
+        success: (data) => {
+            dishes = data;
+            let dishSelector = document.getElementById('dish');
+            for (let dish of dishes) {
+                let option = document.createElement("option");
+                option.value = dish.id;
+                option.text = dish.name;
+                dishSelector.appendChild(option);
+            }
         }
     });
 });
@@ -30,12 +46,6 @@ document.getElementById("add__button").onclick = () => {
     newSelect.classList.add('ingredients-all');
     newInnerDiv.appendChild(newSelect);
 
-
-    // ingredients = [{id: 1, name: "ingr1"},
-    //     {id: 2, name: "ingr2"},
-    //     {id: 3, name: "ingr3"},
-    //     {id: 4, name: "ingr4"}];
-
     for (let el of ingredients) {
         let option = document.createElement("option");
         option.value = el.id;
@@ -53,6 +63,7 @@ const sendRecipe = () => {
     console.log(data);
     data.text = document.getElementById('description').value;
     data.title = document.getElementById('name').value;
+    data.dish = document.getElementById('dish').value;
 
     $.ajax({
         url: '/recipes',

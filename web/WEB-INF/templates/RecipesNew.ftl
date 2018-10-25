@@ -20,7 +20,14 @@
                 <div class="recipe">
                     <div class="form">
                         <input type="text" name="name" id="name" placeholder="Recipe name">
+
+                        <div style="margin: 1rem;">
+                            <label for="dish">Select dish:</label>
+                            <select name="dish" id="dish"></select>
+                        </div>
+
                         <textarea name="description" id="description" placeholder="Description"></textarea>
+
 
                         <h3 class="avatar-label">Ingredients:</h3>
                         <div id="form">

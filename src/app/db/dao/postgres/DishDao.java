@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DishDao extends AbstractDao<Dish> implements app.db.dao.DishDao {
-    DishDao() {
+    public DishDao() {
         super(ConnectionSingleton.getInstance());
     }
 

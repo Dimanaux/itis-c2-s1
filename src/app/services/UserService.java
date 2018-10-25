@@ -97,8 +97,7 @@ public class UserService {
     }
 
     public void updateUserPicture(InputStream input, User user) throws IOException {
-        final String ROOT = "C:\\Users\\cosmos\\IdeaProjects\\itis-c2-s1\\out\\artifacts\\itis_c2_s1_war_exploded\\";
-        File file = new File(ROOT + "static\\uploads\\" + user.getName());
+        File file = new File("..\\..\\static\\uploads\\" + user.getName());
         FileOutputStream output = new FileOutputStream(file, false);
 
         byte[] bytes = new byte[512];

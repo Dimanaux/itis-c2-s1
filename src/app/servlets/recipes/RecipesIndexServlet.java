@@ -1,5 +1,6 @@
 package app.servlets.recipes;
 
+import app.db.models.Dish;
 import app.db.models.Recipe;
 import app.db.models.User;
 
@@ -22,9 +23,16 @@ public class RecipesIndexServlet extends AbstractRecipesServlet {
 
         String title = req.getParameter("title");
         String text = req.getParameter("text");
-        String dish = req.getParameter("dish");
-        String[] ingredients = req.getParameterValues("ingredients");
-        System.out.println("end");
+        String dishId = req.getParameter("dish_id");
+        String[] ingredients = req.getParameterValues("ingredients[]");
+
+        int[] ids = new int[ingredients.length];
+        for (int i = 0; i < ids.length; i++) {
+            ids[i] = Integer.parseInt(ingredients[i]);
+        }
+
+        Dish dish = getDishService().getById(Integer.parseInt(dishId));
+        getRecipeService().create(dish, user, title, text, ids);
     }
 
     @Override
