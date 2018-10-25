@@ -1,6 +1,9 @@
 const logout = () => {
     $.ajax({
         url: '/logout',
-        type: 'POST'
+        type: 'POST',
+        success: (data) => {
+            window.location.href = '/recipes'
+        }
     });
 };

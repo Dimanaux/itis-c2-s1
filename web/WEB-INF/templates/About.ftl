@@ -4,12 +4,12 @@
 <#macro title>About</#macro>
 
 <#macro imports>
-
+	<link href="/static/css/about.css" rel="stylesheet">
 </#macro>
 
 
 <#macro content>
-    <div class="wrapper" style="background-image: url(./static/res/food.jpg);">
+    <div class="wrapper" style="background-image: url(/static/res/food.jpg);">
         <div class="logo">
         </div>
         <div class="container-wrapper">

@@ -8,9 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 
-@WebServlet(urlPatterns = {"/posts/:id/comments"})
+@WebServlet(urlPatterns = {"/posts/:id/comments"}, asyncSupported = true)
 public class CommentsIndexServlet extends AbstractCommentsServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -24,32 +23,32 @@ public class CommentsIndexServlet extends AbstractCommentsServlet {
         }
         String text = req.getParameter("text");
 
+
         PostComment comment = getCommentService().create(post, user, text);
-        if (comment == null) {
-            resp.sendError(500);
-        } else {
-            resp.sendRedirect("/posts/" + post.getId() + "/comments/" + comment.getId());
-        }
+        comment.setAuthor(user);
+        resp.setContentType("text/json");
+        String json = getGson().toJson(comment);
+        resp.getWriter().write(json);
+        resp.getWriter().close();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         User user = getUserService().getCurrentUser(req);
+        int postId = getPostId(req.getRequestURI());
+        Post post = getPostService().getPostById(postId);
 
-        if (user == null) {
+        if (post == null || user == null) {
             resp.sendRedirect("/auth");
             return;
         }
 
-        int postId = getPostId(req.getRequestURI());
-        Post post = getPostService().getPostById(postId);
-        getHelper().render(
-                resp,
-                "PostsIdComments.ftl",
-                new HashMap<>() {{
-                    put("user", user);
-                    put("post", post);
-                }}
-        );
+        resp.setContentType("text/json");
+
+        PostComment[] comments = getCommentService().getByPost(post).toArray(new PostComment[0]);
+
+        String json = getGson().toJson(comments);
+        resp.getWriter().write(json);
+        resp.getWriter().close();
     }
 }

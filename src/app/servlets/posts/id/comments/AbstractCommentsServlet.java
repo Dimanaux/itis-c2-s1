@@ -21,6 +21,7 @@ public abstract class AbstractCommentsServlet extends AbstractPostsServlet {
         return commentService;
     }
 
+
     int getPostId(String uri) {
         Matcher matcher = Pattern.compile("/posts/([1-9][0-9]*)/.*")
                 .matcher(uri);

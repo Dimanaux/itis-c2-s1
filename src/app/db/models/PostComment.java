@@ -10,11 +10,11 @@ public class PostComment extends Model {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "authorId")
+    @Column(name = "author_id")
     private Integer authorId;
     private User author;
 
-    @Column(name = "postId")
+    @Column(name = "post_id")
     private Integer postId;
     private Post post;
 

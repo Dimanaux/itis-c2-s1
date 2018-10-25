@@ -193,3 +193,12 @@ main .container .devs .dev .dev-text h3 {
 main .container .devs .dev .dev-text p {
 	font-size: 24px;
 }
+
+.post-text {
+    text-overflow: clip;
+}
+
+
+.post-text::after {
+	content: '...';
+}

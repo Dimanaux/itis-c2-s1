@@ -84,7 +84,7 @@ class QueryHelper<M extends Model> {
         for (Field f : notNullColumns) {
             f.setAccessible(true);
             try {
-                statement.setString(count, String.valueOf(f.get(values)));
+                statement.setObject(count, f.get(values));
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }

@@ -46,7 +46,7 @@ public class IngredientDao extends AbstractDao<Ingredient> implements app.db.dao
 
     @Override
     public String getTableName() {
-        return null;
+        return "ingredient";
     }
 
     @Override

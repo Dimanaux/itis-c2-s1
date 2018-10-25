@@ -20,6 +20,11 @@ public class RecipesIndexServlet extends AbstractRecipesServlet {
             return;
         }
 
+        String title = req.getParameter("title");
+        String text = req.getParameter("text");
+        String dish = req.getParameter("dish");
+        String[] ingredients = req.getParameterValues("ingredients");
+        System.out.println("end");
     }
 
     @Override

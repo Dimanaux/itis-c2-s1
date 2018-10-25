@@ -9,7 +9,7 @@
             <div>
                 <a href="/recipes/${recipe.id}">
                     <span class="item">
-                        <img src="./static/res/item1.jpg" alt="item1">
+                        <img src="/static/res/item1.jpg" alt="item1">
                         <span class="item-text">
                             <h3 class="heading">${recipe.title}</h3>
                             <#if recipe.ingredients?? && recipe.ingredients?has_content>

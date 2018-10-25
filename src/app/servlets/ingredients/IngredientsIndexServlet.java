@@ -7,10 +7,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 
-@WebServlet(name = "IngredientsIndexServlet", urlPatterns = {"/ingredients"})
+@WebServlet(name = "IngredientsIndexServlet", urlPatterns = {"/ingredients"}, asyncSupported = true)
 public class IngredientsIndexServlet extends AbstractIngredientsServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -27,15 +25,11 @@ public class IngredientsIndexServlet extends AbstractIngredientsServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        List<Ingredient> ingredients = getIngredientService().getAllIngredients();
-        User user = getUserService().getCurrentUser(req);
-        getHelper().render(
-                resp,
-                "IngredientsIndex.ftl",
-                new HashMap<>() {{
-                    put("user", user);
-                    put("ingredients", ingredients);
-                }}
-        );
+        Ingredient[] ingredients = getIngredientService().getAllIngredients().toArray(new Ingredient[0]);
+        String json = getGson().toJson(ingredients);
+
+        resp.setContentType("text/json");
+        resp.getWriter().write(json);
+        resp.getWriter().close();
     }
 }

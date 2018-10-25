@@ -2,7 +2,7 @@
 
 <#macro title>Registration</#macro>
 <#macro imports>
-    <link href="./static/css/login.css" rel="stylesheet">
+    <link href="/static/css/login.css" rel="stylesheet">
 </#macro>
 
 <#macro content>

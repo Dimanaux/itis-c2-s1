@@ -4,11 +4,11 @@
 <#macro title>Help</#macro>
 
 <#macro imports>
-    <link href="./static/css/help.css" rel="stylesheet">
+    <link href="/static/css/help.css" rel="stylesheet">
 </#macro>
 
 <#macro content>
-    <div class="wrapper" style="background-image: url(./static/res/food.jpg);">
+    <div class="wrapper" style="background-image: url(/static/res/food.jpg);">
         <div class="logo">
         </div>
         <div class="container-wrapper">

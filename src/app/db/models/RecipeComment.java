@@ -10,11 +10,11 @@ public class RecipeComment extends Model {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "authorId")
+    @Column(name = "author_id")
     private Integer authorId;
     private User author;
 
-    @Column(name = "recipeId")
+    @Column(name = "recipe_id")
     private Integer recipeId;
     private Recipe recipe;
 

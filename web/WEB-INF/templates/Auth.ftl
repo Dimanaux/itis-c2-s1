@@ -2,11 +2,11 @@
 
 <#macro title>Auth</#macro>
 <#macro imports>
-    <link href="./static/css/login.css" rel="stylesheet">
+    <link href="/static/css/login.css" rel="stylesheet">
 </#macro>
 
 <#macro content>
-    <div class="wrapper" style="background-image: url(res/food.jpg);">
+    <div class="wrapper" style="background-image: url(/static/res/food.jpg);">
         <div class="logo">
         </div>
         <div class="form">

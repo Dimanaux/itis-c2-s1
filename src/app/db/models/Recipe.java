@@ -4,9 +4,12 @@ package app.db.models;
 // TODO: 18/10/10
 // What to do with many-to-many relation?
 
-import app.db.annotations.*;
+import app.db.annotations.Column;
+import app.db.annotations.Id;
+import app.db.annotations.Table;
 
 import java.util.Date;
+import java.util.List;
 
 @Table(table = "recipe")
 public class Recipe extends Model {
@@ -17,11 +20,11 @@ public class Recipe extends Model {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "authorId")
+    @Column(name = "author_id")
     private Integer authorId;
     private User author;
 
-    @Column(name = "dishId")
+    @Column(name = "dish_id")
     private Integer dishId;
     private Dish dish;
 
@@ -31,6 +34,28 @@ public class Recipe extends Model {
     @Column(name = "publish_date")
     private Date date;
 
+    private List<RecipeComment> comments;
+    private List<Ingredient> ingredients;
+
+    public Integer getDishId() {
+        return dishId;
+    }
+
+    public List<RecipeComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<RecipeComment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
 
     public Integer getId() {
         return id;

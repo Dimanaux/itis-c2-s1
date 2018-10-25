@@ -6,6 +6,7 @@ import app.db.models.User;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -40,7 +41,6 @@ public class UserService {
      * @return user instance if found and passwords match, else null
      */
     public User authenticate(HttpServletRequest req) {
-        // get user by id
         String username = req.getParameter("username");
         String password = securityService.hashPassword(
                 req.getParameter("password")
@@ -94,5 +94,21 @@ public class UserService {
         );
         user.setName(name);
         return userDao.save(user);
+    }
+
+    public void updateUserPicture(InputStream input, User user) throws IOException {
+        final String ROOT = "C:\\Users\\cosmos\\IdeaProjects\\itis-c2-s1\\out\\artifacts\\itis_c2_s1_war_exploded\\";
+        File file = new File(ROOT + "static\\uploads\\" + user.getName());
+        FileOutputStream output = new FileOutputStream(file, false);
+
+        byte[] bytes = new byte[512];
+
+        int count = input.read(bytes);
+        while (count != -1) {
+            output.write(bytes);
+            count = input.read(bytes);
+        }
+        input.close();
+        output.close();
     }
 }

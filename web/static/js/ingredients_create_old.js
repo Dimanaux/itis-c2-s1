@@ -1,36 +1,65 @@
-document.getElementById("add__button").onclick = function addButton() {
-	//Calculate amount of existing ingredients
-	var form = document.getElementById("form");
-	var amount = form.getElementsByClassName("ingredient").length;
-	amount++;
+let ingredients = [];
 
-	var newDiv = document.createElement("div");
-	newDiv.classList.add("ingredient");
-	form.insertBefore(newDiv, form.children[amount - 1]);
+$(document).ready(() => {
+    $.ajax({
+        url: '/ingredients',
+        type: 'GET',
+        success: (data) => {
+            ingredients = data;
+        }
+    });
+});
 
-	var newInnerDiv = document.createElement("div");
-	newInnerDiv.classList.add("ingredient-selection");
-	newDiv.appendChild(newInnerDiv);
+document.getElementById("add__button").onclick = () => {
+    //Calculate amount of existing ingredients
+    let form = document.getElementById("form");
+    let amount = form.getElementsByClassName("ingredient").length;
+    amount++;
 
-	var input = document.createElement("input");
-	input.classList.add("amount");
-	input.name = "ingredient-amount " + amount; 
-	input.id = "ingredient-amount " + amount;
-	input.placeholder = "Amount";
-	newDiv.appendChild(input);
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("ingredient");
+    form.insertBefore(newDiv, form.children[amount - 1]);
 
-	var newSelect = document.createElement("select");
-	newSelect.name = "ingredient-select " + amount;
-	newSelect.id = "ingredient-select " + amount;
-	newInnerDiv.appendChild(newSelect);
+    let newInnerDiv = document.createElement("div");
+    newInnerDiv.classList.add("ingredient-selection");
+    newDiv.appendChild(newInnerDiv);
+
+    let newSelect = document.createElement("select");
+    newSelect.name = "ingredient-select " + amount;
+    newSelect.id = "ingredient-select " + amount;
+    newSelect.classList.add('ingredients-all');
+    newInnerDiv.appendChild(newSelect);
 
 
-	var array = ["ingr1", "ingr2", "ingr3", "ingr4"]
+    // ingredients = [{id: 1, name: "ingr1"},
+    //     {id: 2, name: "ingr2"},
+    //     {id: 3, name: "ingr3"},
+    //     {id: 4, name: "ingr4"}];
 
-	for (var i = 0; i < array.length; i++) {
-		var option = document.createElement("option");
-		option.value = array[i];
-		option.text = array[i];
-		newSelect.appendChild(option);
-	}
-}
+    for (let el of ingredients) {
+        let option = document.createElement("option");
+        option.value = el.id;
+        option.text = el.name;
+        newSelect.appendChild(option);
+    }
+};
+
+const sendRecipe = () => {
+    let data = {};
+    data.ingredients = [];
+    for (let i of document.getElementsByClassName('ingredients-all')) {
+        data.ingredients.push(i.value);
+    }
+    console.log(data);
+    data.text = document.getElementById('description').value;
+    data.title = document.getElementById('name').value;
+
+    $.ajax({
+        url: '/recipes',
+        type: 'POST',
+        data: data,
+        success: (data) => {
+            window.location.href = '/recipes'
+        }
+    });
+};

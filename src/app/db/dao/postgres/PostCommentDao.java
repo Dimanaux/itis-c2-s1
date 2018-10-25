@@ -14,7 +14,7 @@ public class PostCommentDao extends AbstractDao<PostComment> implements app.db.d
     private PostDao postDao;
     private UserDao userDao;
 
-    PostCommentDao() {
+    public PostCommentDao() {
         super(ConnectionSingleton.getInstance());
         this.postDao = new app.db.dao.postgres.PostDao();
         this.userDao = new app.db.dao.postgres.UserDao();

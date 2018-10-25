@@ -13,7 +13,7 @@ public class Post extends Model {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "authorId")
+    @Column(name = "author_id")
     private Integer authorId;
     private User author;
 

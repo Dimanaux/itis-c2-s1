@@ -1,4 +1,4 @@
-var ul = document.getElementById('sidemenu');
+let ul = document.getElementById('sidemenu');
 
 ul.addEventListener('click', function(e) {
     if (e.target.tagName === 'LI'){
