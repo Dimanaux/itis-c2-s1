@@ -26,4 +26,12 @@ public class DishService {
         return dishDao.getAll();
     }
 
+    public Dish create(String name, Boolean isVegan, String description) {
+        Dish dish = new Dish();
+        dish.setName(name);
+        dish.setVegan(isVegan);
+        dish.setDescription(description);
+        return dishDao.save(dish);
+    }
+
 }
