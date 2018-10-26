@@ -18,7 +18,7 @@
         <div class="container">
             <div class="label">Edit profile: </div>
             <div class="recipe">
-                <form action="" class="recipe-form">
+                <form action="/profile" class="recipe-form">
                     <input class="input" type="text" name="name" id="name" placeholder="Name">
                     <input type="submit" value="change">
                 </form>
