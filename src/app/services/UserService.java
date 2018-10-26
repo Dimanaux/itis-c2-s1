@@ -6,9 +6,10 @@ import app.db.models.User;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.util.Arrays;
-import java.util.Optional;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class UserService {
     private SecurityService securityService;
@@ -29,10 +30,22 @@ public class UserService {
             return null;
         }
 
-        Optional<Cookie> token = Arrays.stream(req.getCookies())
-                .filter(c -> c.getName().equals("remember_me"))
-                .findAny();
-        return token.map(cookie -> authorize(req, userDao.getUserByToken(cookie.getValue()))).orElse(null);
+        Cookie rememberMe = findRememberMe(req.getCookies());
+
+        if (rememberMe == null) {
+            return null;
+        }
+
+        return userDao.getUserByToken(rememberMe.getValue());
+    }
+
+    private Cookie findRememberMe(Cookie[] cookies) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("remember_me")) {
+                return cookie;
+            }
+        }
+        return null;
     }
 
     /**
@@ -97,7 +110,7 @@ public class UserService {
     }
 
     public void updateUserPicture(InputStream input, User user) throws IOException {
-        File file = new File("..\\..\\static\\uploads\\" + user.getName());
+        File file = new File("C:\\Users\\cosmos\\IdeaProjects\\itis-c2-s1\\out\\artifacts\\itis_c2_s1_war_exploded\\static\\res\\" + user.getUsername() + ".jpg");
         FileOutputStream output = new FileOutputStream(file, false);
 
         byte[] bytes = new byte[512];
@@ -109,5 +122,10 @@ public class UserService {
         }
         input.close();
         output.close();
+    }
+
+    public void updateProfile(User user, String name) {
+        user.setName(name);
+        userDao.update(user);
     }
 }
