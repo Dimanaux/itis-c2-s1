@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @WebServlet(name = "DishesIndexServlet", urlPatterns = {"/dishes"})
 public class DishesIndexServlet extends AbstractServlet {
-    public DishService getDishService() {
+    DishService getDishService() {
         return dishService;
     }
 
@@ -26,11 +26,15 @@ public class DishesIndexServlet extends AbstractServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String name = req.getParameter("name");
+        boolean isVegan = Boolean.parseBoolean(req.getParameter("is_vegan"));
+        String description = req.getParameter("description");
+        dishService.create(name, isVegan, description);
+        resp.sendRedirect("/dishes");
     }
 
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Dish[] dishes = getDishService().getAll().toArray(new Dish[0]);
 
         resp.setContentType("text/json");
