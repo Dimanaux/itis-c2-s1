@@ -26,8 +26,13 @@ public class ProfileIndexServlet extends AbstractServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        User currentUser = getUserService().getCurrentUser(req);
+        User user = getUserService().getCurrentUser(req);
 
+        String name = req.getParameter("name");
+        getUserService().updateProfile(user, name);
+
+        getUserService().authorize(req, user);
+        resp.sendRedirect("/profile");
     }
 
     @Override
@@ -38,8 +43,6 @@ public class ProfileIndexServlet extends AbstractServlet {
             resp.sendRedirect("/auth");
             return;
         }
-
-        System.out.println(System.getProperty("user.dir"));
 
         List<Recipe> recipes = recipeDao.getByAuthor(user);
 
