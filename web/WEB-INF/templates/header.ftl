@@ -2,12 +2,12 @@
 <#macro header>
 <header>
     <div class="brand">BR4ND</div>
-    <div class="search">
+    <form class="search" method="GET" action="/search">
         <span class="search-border">
-            <input type="search" id="search-input" placeholder="Search">
-            <button type="submit" id="search-button">&#128269;</button>
+            <input type="search" id="search-input" placeholder="list ingredients..." name="query">
+            <input type="submit" id="search-button" value="&#128269;">
         </span>
-    </div>
+    </form>
     <div class="bar__right">
         <#if user??>
             <a href="/profile" class="topnav-button">Profile</a>

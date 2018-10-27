@@ -23,7 +23,7 @@ public class RecipesIndexServlet extends AbstractRecipesServlet {
 
         String title = req.getParameter("title");
         String text = req.getParameter("text");
-        String dishId = req.getParameter("dish_id");
+        String dishId = req.getParameter("dish");
         String[] ingredients = req.getParameterValues("ingredients[]");
 
         int[] ids = new int[ingredients.length];

@@ -103,4 +103,42 @@ public class RecipeDao extends AbstractDao<Recipe> implements app.db.dao.RecipeD
         User author = userDao.getById(id);
         return getByAuthor(author);
     }
+
+    @Override
+    public List<Recipe> getRecipesByIngredients(List<Integer> ids) {
+        StringBuilder query = new StringBuilder(
+                "SELECT DISTINCT r.id, r.title, r.author_id, r.publish_date, r.dish_id" +
+                        " FROM recipe r" +
+                        " INNER JOIN ingredient_recipe_relation irr ON r.id = irr.recipe_id" +
+                        " INNER JOIN ingredient i on irr.ingredient_id = i.id" +
+                        " WHERE NOT EXISTS(SELECT 1" +
+                        " FROM ingredient_recipe_relation ir" +
+                        " WHERE ir.recipe_id = r.id" +
+                        " AND ir.ingredient_id NOT IN (?"
+        );
+        for (int i = 1; i < ids.size(); i++) {
+            query.append(", ?");
+        }
+        query.append("));");
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query.toString());
+            int count = 1;
+            for (var ingredientId : ids) {
+                statement.setInt(count, ingredientId);
+                count++;
+            }
+
+            LinkedList<Recipe> recipes = new LinkedList<>();
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Recipe recipe = instance(rs);
+                recipes.add(recipe);
+            }
+            return recipes;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new LinkedList<>();
+        }
+    }
 }

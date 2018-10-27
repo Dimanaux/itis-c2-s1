@@ -10,4 +10,5 @@ public interface IngredientDao extends Dao<Ingredient> {
     List<Ingredient> getByRecipe(Recipe recipe);
     List<Ingredient> getByRecipeId(int recipeId);
     void bindToRecipe(Recipe recipe, int[] ids);
+    List<Ingredient> getByNames(List<String> names);
 }

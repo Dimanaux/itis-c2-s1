@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class IngredientDao extends AbstractDao<Ingredient> implements app.db.dao.IngredientDao {
     public IngredientDao() {
@@ -61,6 +62,38 @@ public class IngredientDao extends AbstractDao<Ingredient> implements app.db.dao
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Ingredient> getByNames(List<String> names) {
+        names = names.stream().map(String::toLowerCase).collect(Collectors.toList());
+        try {
+            StringBuilder query = new StringBuilder("SELECT * FROM ingredient WHERE LOWER(name) in (?");
+            for (int i = 1; i < names.size(); i++) {
+                query.append(", ?");
+            }
+            query.append(")");
+
+            PreparedStatement statement = connection.prepareStatement(query.toString());
+
+            int count = 1;
+            for (var name : names) {
+                statement.setString(count, name);
+                count++;
+            }
+
+            List<Ingredient> ingredients = new LinkedList<>();
+
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Ingredient ingredient = instance(rs);
+                ingredients.add(ingredient);
+            }
+            return ingredients;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new LinkedList<>();
         }
     }
 

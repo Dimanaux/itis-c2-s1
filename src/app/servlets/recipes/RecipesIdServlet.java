@@ -1,5 +1,6 @@
 package app.servlets.recipes;
 
+import app.db.models.Ingredient;
 import app.db.models.Recipe;
 import app.db.models.User;
 
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,6 +38,7 @@ public class RecipesIdServlet extends AbstractRecipesServlet {
         User user = getUserService().getCurrentUser(req);
         int id = getId(req.getRequestURI());
         Recipe recipe = getRecipeService().getRecipeById(id);
+        List<Ingredient> ingredients = getIngredientService().getIngredientsByRecipe(recipe);
         boolean canEdit = recipe.getAuthor().equals(user);
 
         getHelper().render(
@@ -44,7 +47,7 @@ public class RecipesIdServlet extends AbstractRecipesServlet {
                 new HashMap<>() {{
                     put("user", user);
                     put("recipe", recipe);
-                    put("can_edit", canEdit);
+                    put("ingredients", ingredients);
                 }}
         );
     }
