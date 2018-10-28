@@ -42,7 +42,7 @@ public class RecipeCommentDao extends AbstractDao<RecipeComment> implements app.
         try {
             PreparedStatement statement = super.connection.prepareStatement(
                     "SELECT * FROM recipe_comment c " +
-                            "INNER JOIN \"user\" u on c.author_id = u.id WHERE c.id = ?"
+                            "INNER JOIN \"user\" u on c.author_id = u.id WHERE c.recipe_id = ?"
             );
             statement.setInt(1, recipe.getId());
 
