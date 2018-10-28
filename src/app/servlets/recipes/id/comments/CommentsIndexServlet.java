@@ -9,7 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.List;
 
 @WebServlet(urlPatterns = {"/recipes/:id/comments"})
 public class CommentsIndexServlet extends AbstractCommentsServlet {
@@ -31,27 +31,26 @@ public class CommentsIndexServlet extends AbstractCommentsServlet {
         } else {
             resp.sendRedirect("/recipes/" + recipe.getId() + "/comments/" + comment.getId());
         }
+        comment.setAuthor(user);
+
+        String json = getGson().toJson(comment);
+        resp.setContentType("text/json");
+        resp.getWriter().print(json);
+        resp.getWriter().close();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        // TODO: 18/10/20 ?
         User user = getUserService().getCurrentUser(req);
 
-        if (user == null) {
-            resp.sendRedirect("/auth");
-            return;
-        }
+        int recipeId = getRecipeId(req.getRequestURI());
+        Recipe recipe = getRecipeService().getRecipeById(recipeId);
 
-        int postId = getRecipeId(req.getRequestURI());
-        Recipe recipe = getRecipeService().getRecipeById(postId);
-        getHelper().render(
-                resp,
-                "RecipesIdComments.ftl",
-                new HashMap<>() {{
-                    put("user", user);
-                    put("recipe", recipe);
-                }}
-        );
+        List<RecipeComment> comments = getCommentService().getCommentsByRecipeId(recipeId);
+
+        resp.setContentType("text/json");
+        String json = getGson().toJson(comments.toArray());
+        resp.getWriter().write(json);
+        resp.getWriter().close();
     }
 }

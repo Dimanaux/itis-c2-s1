@@ -43,7 +43,7 @@ public class DispatcherServlet extends HttpServlet {
         add("/recipes/([1-9][0-9]*)/comments/([1-9][0-9]*)",        new app.servlets.recipes.id.comments.CommentsIdServlet());
         add("/recipes/([1-9][0-9]*)/comments",                      new app.servlets.recipes.id.comments.CommentsIndexServlet());
 
-        // TODO: 18/10/19 add url patterns
+        add("/", new app.servlets.recipes.RecipesIndexServlet());
     }
 
     private void add(String regex, HttpServlet servlet) {

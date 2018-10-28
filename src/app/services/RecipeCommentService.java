@@ -5,7 +5,7 @@ import app.db.models.Recipe;
 import app.db.models.RecipeComment;
 import app.db.models.User;
 
-import java.util.Date;
+import java.util.List;
 
 public class RecipeCommentService {
     private RecipeCommentDao recipeCommentDao;
@@ -21,8 +21,10 @@ public class RecipeCommentService {
         comment.setAuthor(user);
         comment.setAuthorId(user.getId());
         comment.setText(text);
-        comment.setDate(new Date());
-        recipeCommentDao.save(comment);
-        return comment;
+        return recipeCommentDao.save(comment);
+    }
+
+    public List<RecipeComment> getCommentsByRecipeId(int recipeId) {
+        return recipeCommentDao.getByRecipeId(recipeId);
     }
 }
