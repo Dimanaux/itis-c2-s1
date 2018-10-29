@@ -2,7 +2,7 @@ const createRecipe = (recipe) => {
     let list = $('#recipes-list');
     list.append(
         `<a href="/recipes/${recipe.id}">
-            <div class="recipe-item">
+            <div class="item">
                 <h4>${recipe.title}</h4>
                 <small>${recipe.date}</small>
             </div>

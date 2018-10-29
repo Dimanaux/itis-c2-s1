@@ -1,7 +1,7 @@
 const appendComment = (comment) => {
     let commentList = $('#comments-list');
     commentList.append(
-        `<div>
+        `<div class="comment">
             <h4>${comment.author.username}</h4>
             <p>${comment.text}</p>
             <small>${comment.date}</small>

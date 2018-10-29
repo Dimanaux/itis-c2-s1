@@ -4,6 +4,7 @@
 
 <#macro imports>
     <script src="/static/js/posts_id.js" defer></script>
+    <link rel="stylesheet" href="/static/css/post.css">
 </#macro>
 
 <#macro title>Post #${post.id}</#macro>
@@ -15,19 +16,21 @@
         <div class="container-wrapper">
             <@sidemenu></@sidemenu>
             <div class="container">
-                <div>
-                    <div>
-                        <h3>${post.title}</h3>
+                <div class="post">
+                    <div class="post-data">
+                        <h2>${post.title}</h2>
                         <p>${post.text}</p>
                         <small>${post.date}</small>
                     </div>
-                    <div>
+                    <hr>
+                    <div class="create-comment">
                         <h3>Write a comment:</h3>
                         <label for="comment-text">Text:</label>
                         <textarea name="text" id="comment-text" cols="30" rows="10" required></textarea>
                         <button onclick="sendComment();">Comment!</button>
                     </div>
-                    <div id="comments-list">
+                    <hr>
+                    <div class="comments" id="comments-list">
                         <h3>Comments:</h3>
                     </div>
                 </div>
