@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="user" type="app.db.models.User" -->
+<#-- @ftlvariable name="user" type="main.java.app.db.models.User" -->
 <#macro header>
 <header>
     <div class="brand">BR4ND</div>
