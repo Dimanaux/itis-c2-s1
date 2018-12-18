@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="ingredients" type="java.util.List<main.java.app.db.models.Ingredient>" -->
+<#-- @ftlvariable name="ingredients" type="java.util.List<app.db.models.Ingredient>" -->
 <#include "base.ftl">
 <#include "sidemenu.ftl">
 

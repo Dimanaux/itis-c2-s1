@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="user" type="main.java.app.db.models.User" -->
+<#-- @ftlvariable name="user" type="app.db.models.User" -->
 <#macro profile_view>
     <a href="/profile/edit" class="edit">&#9998;</a>
 

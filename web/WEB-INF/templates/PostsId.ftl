@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="post" type="main.java.app.db.models.Post" -->
+<#-- @ftlvariable name="post" type="app.db.models.Post" -->
 <#include "base.ftl">
 <#include "sidemenu.ftl">
 

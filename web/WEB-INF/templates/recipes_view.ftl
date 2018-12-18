@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="recipes" type="java.util.List<main.java.app.db.models.Recipe>" -->
+<#-- @ftlvariable name="recipes" type="java.util.List<app.db.models.Recipe>" -->
 <#macro recipes_view>
     <div class="recipes-bar__top">
         <div class="label">Recipes:</div>
