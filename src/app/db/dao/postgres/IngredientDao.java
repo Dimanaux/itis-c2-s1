@@ -78,7 +78,7 @@ public class IngredientDao extends AbstractDao<Ingredient> implements app.db.dao
             PreparedStatement statement = connection.prepareStatement(query.toString());
 
             int count = 1;
-            for (var name : names) {
+            for (String name : names) {
                 statement.setString(count, name);
                 count++;
             }

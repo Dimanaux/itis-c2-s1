@@ -124,7 +124,7 @@ public class RecipeDao extends AbstractDao<Recipe> implements app.db.dao.RecipeD
         try {
             PreparedStatement statement = connection.prepareStatement(query.toString());
             int count = 1;
-            for (var ingredientId : ids) {
+            for (int ingredientId : ids) {
                 statement.setInt(count, ingredientId);
                 count++;
             }

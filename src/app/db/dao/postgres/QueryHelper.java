@@ -104,7 +104,7 @@ class QueryHelper<M extends Model> {
     private List<Field> getColumns(Class<? extends Model> clazz) {
         List<Field> columns = new ArrayList<>();
         Field[] fields = clazz.getDeclaredFields();
-        for (var f : fields) {
+        for (Field f : fields) {
             if (isColumn(f)) {
                 columns.add(f);
             }
@@ -115,7 +115,7 @@ class QueryHelper<M extends Model> {
     private List<Field> getNotNullColumns(M instance) {
         List<Field> notNull = new ArrayList<>();
 
-        for (var f : getColumns(instance.getClass())) {
+        for (Field f : getColumns(instance.getClass())) {
             f.setAccessible(true);
             try {
                 if (f.get(instance) != null) {

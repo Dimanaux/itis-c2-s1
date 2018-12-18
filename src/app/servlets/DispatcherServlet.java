@@ -68,7 +68,7 @@ public class DispatcherServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uri = req.getRequestURI();
 
-        for (var pair : map) {
+        for (Pair<Pattern, HttpServlet> pair : map) {
             if (pair.getKey().matcher(uri).matches()) {
                 pair.getValue().init(getServletConfig());
                 pair.getValue().service(req, resp);
